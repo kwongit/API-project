@@ -52,4 +52,4 @@ module.exports = (sequelize, DataTypes) => {
   return User;
 };
 
-// TODO: User Seeds
+// TODO: Model Scopes - Protecting Users' Information
