@@ -8,29 +8,45 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
+// Validate latitude within -90 to 90 degrees
+const validateLatitude = (value) => {
+  if (!/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/.test(value)) {
+    throw new Error("Latitude is not valid");
+  }
+  return true;
+};
+
+// Validate longitude within -180 to 180 degrees
+const validateLongitude = (value) => {
+  if (!/^[-+]?(180(\.0+)?|((1[0-7]\d)|(\d{1,2}))(\.\d+)?)$/.test(value)) {
+    throw new Error("Longitude is not valid");
+  }
+  return true;
+};
+
 // Validation middleware for the spot creation
 const validateSpot = [
-  check("address").notEmpty().withMessage("Street address is required"),
-  check("city").notEmpty().withMessage("City is required"),
-  check("state").notEmpty().withMessage("State is required"),
-  check("country").notEmpty().withMessage("Country is required"),
-  check("lat")
-    .notEmpty()
-    .withMessage("Latitude is required")
-    .isDecimal({ decimal_digits: "7" })
-    .withMessage("Latitude is not valid"),
-  check("lng")
-    .notEmpty()
-    .withMessage("Longitude is required")
-    .isFloat({ decimal_digits: "7" })
-    .withMessage("Longitude is not valid"),
+  check("address")
+    .exists({ checkFalsy: true })
+    .withMessage("Street address is required"),
+  check("city").exists({ checkFalsy: true }).withMessage("City is required"),
+  check("state").exists({ checkFalsy: true }).withMessage("State is required"),
+  check("country")
+    .exists({ checkFalsy: true })
+    .withMessage("Country is required"),
+  check("lat").exists({ checkFalsy: true }).custom(validateLatitude),
+  check("lng").exists({ checkFalsy: true }).custom(validateLongitude),
   check("name")
-    .notEmpty()
+    .exists({ checkFalsy: true })
     .withMessage("Name is required")
     .isLength({ max: 49 })
     .withMessage("Name must be less than 50 characters"),
-  check("description").notEmpty().withMessage("Description is required"),
-  check("price").notEmpty().withMessage("Price per day is required"),
+  check("description")
+    .exists({ checkFalsy: true })
+    .withMessage("Description is required"),
+  check("price")
+    .exists({ checkFalsy: true })
+    .withMessage("Price per day is required"),
   handleValidationErrors,
 ];
 
