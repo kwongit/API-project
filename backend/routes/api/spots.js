@@ -54,27 +54,27 @@ const validateSpot = [
 router.get("/", async (req, res) => {
   // Fetch all spots
   const spots = await Spot.findAll({
-    attributes: {
-      include: [
-        [
-          sequelize.literal(`(
-              SELECT AVG(stars)
-              FROM Reviews
-              WHERE Reviews.spotId = Spot.id
-            )`),
-          "avgRating",
-        ],
-      ],
-    },
-    // Include the preview image URL using a subquery
-    include: [
-      {
-        model: SpotImage,
-        attributes: ["url"],
-        where: { preview: true },
-        required: false,
-      },
-    ],
+    // attributes: {
+    //   include: [
+    //     [
+    //       sequelize.literal(`(
+    //           SELECT AVG(stars)
+    //           FROM Reviews
+    //           WHERE Reviews.spotId = Spot.id
+    //         )`),
+    //       "avgRating",
+    //     ],
+    //   ],
+    // },
+    // // Include the preview image URL using a subquery
+    // include: [
+    //   {
+    //     model: SpotImage,
+    //     attributes: ["url"],
+    //     where: { preview: true },
+    //     required: false,
+    //   },
+    // ],
   });
 
   return res.status(200).json({
