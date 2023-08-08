@@ -10,23 +10,26 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
+// Validation middleware for the login request
 const validateLogin = [
   check("credential")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage("Please provide a valid email or username."),
+    .withMessage("Email or username is required"),
   check("password")
     .exists({ checkFalsy: true })
-    .withMessage("Please provide a password."),
+    .withMessage("Password is required"),
   handleValidationErrors,
 ];
 
-// Log in
+// Route to log in a user
 router.post("/", validateLogin, async (req, res, next) => {
   const { credential, password } = req.body;
 
+  // Find the user by email or username
   const user = await User.unscoped().findOne({
     where: {
+      // Search by email or username
       [Op.or]: {
         username: credential,
         email: credential,
@@ -38,7 +41,7 @@ router.post("/", validateLogin, async (req, res, next) => {
     const err = new Error("Login failed");
     err.status = 401;
     err.title = "Login failed";
-    err.errors = { credential: "The provided credentials were invalid." };
+    err.errors = { message: "Invalid credentials" };
     return next(err);
   }
 
@@ -52,7 +55,7 @@ router.post("/", validateLogin, async (req, res, next) => {
 
   await setTokenCookie(res, safeUser);
 
-  return res.json({
+  return res.status(200).json({
     user: safeUser,
   });
 });
@@ -64,7 +67,7 @@ router.delete("/", (_req, res) => {
 });
 
 // Restore session user
-router.get("/", (req, res) => {
+router.get("/", restoreUser, (req, res) => {
   const { user } = req;
   if (user) {
     const safeUser = {
@@ -74,10 +77,14 @@ router.get("/", (req, res) => {
       email: user.email,
       username: user.username,
     };
-    return res.json({
+    return res.status(200).json({
       user: safeUser,
     });
-  } else return res.json({ user: null });
+  } else {
+    return res.status(200).json({
+      user: null,
+    });
+  }
 });
 
 module.exports = router;
