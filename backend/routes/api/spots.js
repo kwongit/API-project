@@ -53,7 +53,28 @@ const validateSpot = [
 // Route to get all spots
 router.get("/", async (req, res) => {
   // Fetch all spots
-  const spots = await Spot.findAll({});
+  const spots = await Spot.findAll({
+    attributes: [
+      "id",
+      "ownerId",
+      "address",
+      "city",
+      "state",
+      "country",
+      "lat",
+      "lng",
+      "name",
+      "description",
+      "price",
+      [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"],
+    ],
+    include: [
+      {
+        model: Review,
+        attributes: [],
+      },
+    ],
+  });
 
   return res.status(200).json({
     Spots: spots,
