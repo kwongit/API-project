@@ -11,7 +11,16 @@ if (process.env.NODE_ENV === "production") {
 
 const reviewImages = [
   {
+    reviewId: 1,
     url: "image_url_1",
+  },
+  {
+    reviewId: 2,
+    url: "image_url_2",
+  },
+  {
+    reviewId: 3,
+    url: "image_url_3",
   },
 ];
 
