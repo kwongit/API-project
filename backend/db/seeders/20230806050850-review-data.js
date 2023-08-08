@@ -22,12 +22,6 @@ const reviews = [
     review: "second review for spotId 1 by userId 2",
     stars: 5,
   },
-  {
-    spotId: 2,
-    userId: 3,
-    review: "third review for spotId 2 by userId 3",
-    stars: 6,
-  },
 ];
 
 module.exports = {

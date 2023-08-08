@@ -18,10 +18,6 @@ const reviewImages = [
     reviewId: 2,
     url: "image_url_2",
   },
-  {
-    reviewId: 3,
-    url: "image_url_3",
-  },
 ];
 
 module.exports = {
