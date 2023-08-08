@@ -52,42 +52,56 @@ const validateSpot = [
 
 // Route to get all spots
 router.get("/", async (req, res) => {
-  // Fetch all spots
+  // Fetch all spots with avgRating and previewImage
   const spots = await Spot.findAll({
-    attributes: [
-      "id",
-      "ownerId",
-      "address",
-      "city",
-      "state",
-      "country",
-      "lat",
-      "lng",
-      "name",
-      "description",
-      "price",
-      "createdAt",
-      "updatedAt",
-      [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"],
-    ],
     include: [
       {
         model: Review,
         attributes: [],
+        // attributes: [
+        //   [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"],
+        // ],
       },
       {
         model: SpotImage,
-        attributes: ["spotId", "url", "preview"],
+        attributes: ["url"],
         where: {
           preview: true,
         },
       },
     ],
+    group: ["Spot.id"],
   });
 
-  // Transform the data to include previewImage property only
-  const spotsWithPreviewImage = spots.map((spot) => {
-    const previewImage = spot.SpotImages[0]; // Assuming there's only one preview image per spot
+  // Fetch all reviews from the Reviews table
+  const allReviews = await Review.findAll({});
+
+  // Calculate average ratings for each spot
+  for (const spot of spots) {
+    const spotId = spot.id;
+
+    // Find reviews for the current spot
+    const spotReviews = allReviews.filter((review) => review.spotId === spotId);
+
+    // Calculate average stars
+    if (spotReviews.length > 0) {
+      const totalStars = spotReviews.reduce(
+        (sum, review) => sum + review.stars,
+        0
+      );
+      const avgStars = totalStars / spotReviews.length;
+      spot.avgRating = avgStars;
+    } else {
+      spot.avgRating = 0; // Default value if no reviews are available
+    }
+  }
+
+  const spotsWithAvgRatingAndPreviewImage = spots.map((spot) => {
+    // const avgStarRating =
+    //   spot.Reviews.length > 0
+    //     ? parseFloat(spot.Reviews[0].dataValues.avgRating)
+    //     : 0;
+    const spotImageUrl = spot.SpotImages[0].url;
     return {
       id: spot.id,
       ownerId: spot.ownerId,
@@ -102,15 +116,13 @@ router.get("/", async (req, res) => {
       price: spot.price,
       createdAt: spot.createdAt,
       updatedAt: spot.updatedAt,
+      // avgRating: avgStarRating,
       avgRating: spot.avgRating,
-      previewImage: previewImage ? previewImage.url : null,
+      previewImage: spotImageUrl,
     };
   });
 
-  return res.status(200).json({
-    // Spots: spots,
-    Spots: spotsWithPreviewImage,
-  });
+  return res.status(200).json(spotsWithAvgRatingAndPreviewImage);
 });
 
 // Route to create a new spot
