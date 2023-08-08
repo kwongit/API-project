@@ -11,11 +11,15 @@ if (process.env.NODE_ENV === "production") {
 
 const reviews = [
   {
-    review: "first review",
+    spotId: 1,
+    userId: 1,
+    review: "first review for spotId 1 by userId 1",
     stars: 4,
   },
   {
-    review: "second review",
+    spotId: 1,
+    userId: 2,
+    review: "second review for spotId 1 by userId 2",
     stars: 5,
   },
 ];

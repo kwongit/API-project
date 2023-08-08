@@ -10,20 +10,9 @@ if (process.env.NODE_ENV === "production") {
 
 const spotImages = [
   {
-    url: "image_url_1",
+    spotId: 1,
+    url: "image url",
     preview: true,
-  },
-  {
-    url: "image_url_2",
-    preview: false,
-  },
-  {
-    url: "image_url_3",
-    preview: true,
-  },
-  {
-    url: "image_url_4",
-    preview: false,
   },
 ];
 
