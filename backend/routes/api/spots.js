@@ -66,6 +66,8 @@ router.get("/", async (req, res) => {
       "name",
       "description",
       "price",
+      "createdAt",
+      "updatedAt",
       [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"],
     ],
     include: [
@@ -73,11 +75,41 @@ router.get("/", async (req, res) => {
         model: Review,
         attributes: [],
       },
+      {
+        model: SpotImage,
+        attributes: ["spotId", "url", "preview"],
+        where: {
+          preview: true,
+        },
+      },
     ],
   });
 
+  // Transform the data to include previewImage property only
+  const spotsWithPreviewImage = spots.map((spot) => {
+    const previewImage = spot.SpotImages[0]; // Assuming there's only one preview image per spot
+    return {
+      id: spot.id,
+      ownerId: spot.ownerId,
+      address: spot.address,
+      city: spot.city,
+      state: spot.state,
+      country: spot.country,
+      lat: spot.lat,
+      lng: spot.lng,
+      name: spot.name,
+      description: spot.description,
+      price: spot.price,
+      createdAt: spot.createdAt,
+      updatedAt: spot.updatedAt,
+      avgRating: spot.avgRating,
+      previewImage: previewImage ? previewImage.url : null,
+    };
+  });
+
   return res.status(200).json({
-    Spots: spots,
+    // Spots: spots,
+    Spots: spotsWithPreviewImage,
   });
 });
 
