@@ -52,15 +52,71 @@ const validateSpot = [
 
 // Route to get all spots
 router.get("/", async (req, res) => {
+  const spots = await Spot.findAll({
+    include: [
+      {
+        model: Review,
+        attributes: [],
+      },
+      {
+        model: SpotImage,
+        attributes: ["url"],
+      },
+    ],
+    group: ["Spot.id"],
+  });
+
+  const allReviews = await Review.findAll({});
+
+  const spotsWithAvgRatingAndPreviewImage = spots.map((spot) => {
+    const spotId = spot.id;
+
+    const spotReviews = allReviews.filter((review) => review.spotId === spotId);
+
+    if (spotReviews.length > 0) {
+      const totalStars = spotReviews.reduce(
+        (sum, review) => sum + review.stars,
+        0
+      );
+      const avgStars = totalStars / spotReviews.length;
+      spot.avgRating = avgStars;
+    } else {
+      spot.avgRating = 0;
+    }
+
+    const spotImageUrl =
+      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : "";
+
+    return {
+      id: spot.id,
+      ownerId: spot.ownerId,
+      address: spot.address,
+      city: spot.city,
+      state: spot.state,
+      country: spot.country,
+      lat: spot.lat,
+      lng: spot.lng,
+      name: spot.name,
+      description: spot.description,
+      price: spot.price,
+      createdAt: spot.createdAt,
+      updatedAt: spot.updatedAt,
+      avgRating: spot.avgRating,
+      previewImage: spotImageUrl,
+    };
+  });
+
+  return res.status(200).json(spotsWithAvgRatingAndPreviewImage);
+});
+
+// Route to get all spots for current user
+router.get("/current", requireAuth, async (req, res) => {
   // Fetch all spots with avgRating and previewImage
   const spots = await Spot.findAll({
     include: [
       {
         model: Review,
         attributes: [],
-        // attributes: [
-        //   [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"],
-        // ],
       },
       {
         model: SpotImage,
@@ -97,10 +153,6 @@ router.get("/", async (req, res) => {
   }
 
   const spotsWithAvgRatingAndPreviewImage = spots.map((spot) => {
-    // const avgStarRating =
-    //   spot.Reviews.length > 0
-    //     ? parseFloat(spot.Reviews[0].dataValues.avgRating)
-    //     : 0;
     const spotImageUrl = spot.SpotImages[0].url;
     return {
       id: spot.id,
@@ -116,7 +168,6 @@ router.get("/", async (req, res) => {
       price: spot.price,
       createdAt: spot.createdAt,
       updatedAt: spot.updatedAt,
-      // avgRating: avgStarRating,
       avgRating: spot.avgRating,
       previewImage: spotImageUrl,
     };
