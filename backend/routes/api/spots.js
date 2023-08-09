@@ -1,7 +1,13 @@
 const express = require("express");
 
 const { requireAuth } = require("../../utils/auth");
-const { Spot, Review, SpotImage, User } = require("../../db/models");
+const {
+  User,
+  Spot,
+  SpotImage,
+  Review,
+  ReviewImage,
+} = require("../../db/models");
 
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
@@ -424,5 +430,51 @@ router.post(
     return res.status(201).json(newReview);
   }
 );
+
+// Route to get all reviews by spot id
+router.get("/:spotId/reviews", async (req, res) => {
+  const spotId = req.params.spotId;
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
+    });
+  }
+
+  const reviews = await Review.findAll({
+    where: {
+      spotId: spotId,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ["id", "firstName", "lastName"],
+      },
+      {
+        model: ReviewImage,
+        attributes: ["id", "url"],
+      },
+    ],
+  });
+
+  // Transform the reviews
+  const formattedReviews = reviews.map((review) => ({
+    id: review.id,
+    userId: review.userId,
+    spotId: review.spotId,
+    review: review.review,
+    stars: review.stars,
+    createdAt: review.createdAt,
+    updatedAt: review.updatedAt,
+    User: review.User,
+    ReviewImages: review.ReviewImages,
+  }));
+
+  const reviewsResponse = { Reviews: formattedReviews };
+
+  return res.status(200).json(reviewsResponse);
+});
 
 module.exports = router;
