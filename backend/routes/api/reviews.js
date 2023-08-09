@@ -2,11 +2,11 @@ const express = require("express");
 
 const { requireAuth } = require("../../utils/auth");
 const {
-  Review,
   User,
   Spot,
-  ReviewImage,
   SpotImage,
+  Review,
+  ReviewImage,
 } = require("../../db/models");
 
 const { check } = require("express-validator");
@@ -27,18 +27,19 @@ router.get("/current", requireAuth, async (req, res) => {
       },
       {
         model: Spot,
-        attributes: [
-          "id",
-          "ownerId",
-          "address",
-          "city",
-          "state",
-          "country",
-          "lat",
-          "lng",
-          "name",
-          "price",
-        ],
+        // Not needed
+        // attributes: [
+        //   "id",
+        //   "ownerId",
+        //   "address",
+        //   "city",
+        //   "state",
+        //   "country",
+        //   "lat",
+        //   "lng",
+        //   "name",
+        //   "price",
+        // ],
         include: [
           {
             model: SpotImage,
@@ -51,15 +52,16 @@ router.get("/current", requireAuth, async (req, res) => {
         attributes: ["id", "url"],
       },
     ],
-    attributes: [
-      "id",
-      "userId",
-      "spotId",
-      "review",
-      "stars",
-      "createdAt",
-      "updatedAt",
-    ],
+    // Not needed
+    // attributes: [
+    //   "id",
+    //   "userId",
+    //   "spotId",
+    //   "review",
+    //   "stars",
+    //   "createdAt",
+    //   "updatedAt",
+    // ],
   });
 
   // Transform the reviews
@@ -92,6 +94,48 @@ router.get("/current", requireAuth, async (req, res) => {
   const reviewsResponse = { Reviews: formattedReviews };
 
   return res.status(200).json(reviewsResponse);
+});
+
+// Route to add image to review based on review id
+router.post("/:reviewId/images", requireAuth, async (req, res) => {
+  const { user } = req;
+  const { url } = req.body;
+
+  let review = await Review.findByPk(req.params.reviewId, {
+    include: [
+      {
+        model: ReviewImage,
+      },
+    ],
+  });
+
+  if (!review) {
+    return res.status(404).json({
+      message: "Review couldn't be found",
+    });
+  }
+
+  if (user.id !== review.userId) {
+    return res.status(403).json({
+      message: "Forbidden",
+    });
+  }
+
+  if (review.ReviewImages.length >= 10) {
+    return res.status(403).json({
+      message: "Maximum number of images for this resource was reached",
+    });
+  }
+
+  const image = await review.createReviewImage({
+    url: url,
+  });
+
+  let response = {};
+  response.id = image.id;
+  response.url = image.url;
+
+  return res.status(200).json(response);
 });
 
 module.exports = router;
