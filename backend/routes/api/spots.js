@@ -63,7 +63,7 @@ router.get("/", async (req, res) => {
         attributes: ["url"],
       },
     ],
-    group: ["Spot.id"],
+    group: ["Spot.id"], // might need to remove, endpoint fails in prod
   });
 
   // Fetch all reviews from the Reviews table
@@ -129,7 +129,7 @@ router.get("/current", requireAuth, async (req, res) => {
         attributes: ["url"],
       },
     ],
-    group: ["Spot.id"],
+    group: ["Spot.id"], // might need to remove, endpoint fails in prod
   });
 
   // Fetch all reviews from the Reviews table
@@ -266,6 +266,40 @@ router.post("/", requireAuth, validateSpot, async (req, res) => {
   });
 
   return res.status(201).json(newSpot);
+});
+
+// Router to add an image to pot based on spot's id
+router.post("/:spotId/images", requireAuth, async (req, res) => {
+  const { user } = req;
+  const { url, preview } = req.body;
+
+  let spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
+    });
+  }
+
+  if (user.id !== spot.ownerId) {
+    return res.status(403).json({
+      message: "Forbidden",
+    });
+  }
+
+  if (user.id === spot.ownerId) {
+    const image = await spot.createSpotImage({
+      url: url,
+      preview: preview,
+    });
+
+    let response = {};
+    response.id = image.id;
+    response.url = image.url;
+    response.preview = image.preview;
+
+    return res.status(200).json(response);
+  }
 });
 
 module.exports = router;
