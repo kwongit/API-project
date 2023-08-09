@@ -66,13 +66,17 @@ router.get("/", async (req, res) => {
     group: ["Spot.id"],
   });
 
+  // Fetch all reviews from the Reviews table
   const allReviews = await Review.findAll({});
 
+  // Calculate average ratings for each spot
   const spotsWithAvgRatingAndPreviewImage = spots.map((spot) => {
     const spotId = spot.id;
 
+    // Find reviews for the current spot
     const spotReviews = allReviews.filter((review) => review.spotId === spotId);
 
+    // Calculate average stars
     if (spotReviews.length > 0) {
       const totalStars = spotReviews.reduce(
         (sum, review) => sum + review.stars,
@@ -81,7 +85,7 @@ router.get("/", async (req, res) => {
       const avgStars = totalStars / spotReviews.length;
       spot.avgRating = avgStars;
     } else {
-      spot.avgRating = 0;
+      spot.avgRating = 0; // Default value if no reviews are available
     }
 
     const spotImageUrl =
@@ -111,8 +115,10 @@ router.get("/", async (req, res) => {
 
 // Route to get all spots for current user
 router.get("/current", requireAuth, async (req, res) => {
-  // Fetch all spots with avgRating and previewImage
   const spots = await Spot.findAll({
+    where: {
+      ownerId: req.user.id,
+    },
     include: [
       {
         model: Review,
@@ -121,9 +127,6 @@ router.get("/current", requireAuth, async (req, res) => {
       {
         model: SpotImage,
         attributes: ["url"],
-        where: {
-          preview: true,
-        },
       },
     ],
     group: ["Spot.id"],
@@ -133,7 +136,7 @@ router.get("/current", requireAuth, async (req, res) => {
   const allReviews = await Review.findAll({});
 
   // Calculate average ratings for each spot
-  for (const spot of spots) {
+  const spotsWithAvgRatingAndPreviewImage = spots.map((spot) => {
     const spotId = spot.id;
 
     // Find reviews for the current spot
@@ -150,10 +153,10 @@ router.get("/current", requireAuth, async (req, res) => {
     } else {
       spot.avgRating = 0; // Default value if no reviews are available
     }
-  }
 
-  const spotsWithAvgRatingAndPreviewImage = spots.map((spot) => {
-    const spotImageUrl = spot.SpotImages[0].url;
+    const spotImageUrl =
+      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : "";
+
     return {
       id: spot.id,
       ownerId: spot.ownerId,
