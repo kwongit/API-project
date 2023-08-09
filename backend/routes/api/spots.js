@@ -63,7 +63,7 @@ router.get("/", async (req, res) => {
         attributes: ["url"],
       },
     ],
-    group: ["Spot.id"], // might need to remove, endpoint fails in prod
+    // group: ["Spot.id"], // might need to remove, endpoint fails in prod
   });
 
   // Fetch all reviews from the Reviews table
@@ -129,7 +129,7 @@ router.get("/current", requireAuth, async (req, res) => {
         attributes: ["url"],
       },
     ],
-    group: ["Spot.id"], // might need to remove, endpoint fails in prod
+    // group: ["Spot.id"], // might need to remove, endpoint fails in prod
   });
 
   // Fetch all reviews from the Reviews table
