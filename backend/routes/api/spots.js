@@ -268,7 +268,7 @@ router.post("/", requireAuth, validateSpot, async (req, res) => {
   return res.status(201).json(newSpot);
 });
 
-// Router to add an image to pot based on spot's id
+// Route to add an image to pot based on spot's id
 router.post("/:spotId/images", requireAuth, async (req, res) => {
   const { user } = req;
   const { url, preview } = req.body;
@@ -299,6 +299,48 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
     response.preview = image.preview;
 
     return res.status(200).json(response);
+  }
+});
+
+// Route to edit a spot
+router.put("/:spotId", requireAuth, validateSpot, async (req, res) => {
+  const { user } = req;
+  const { address, city, state, country, lat, lng, name, description, price } =
+    req.body;
+
+  let spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
+    });
+  }
+
+  if (user.id !== spot.ownerId) {
+    return res.status(403).json({
+      message: "Forbidden",
+    });
+  }
+
+  if (user.id === spot.ownerId) {
+    const editSpot = await spot.update({
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+    });
+
+    // let response = {};
+    // response.id = image.id;
+    // response.url = image.url;
+    // response.preview = image.preview;
+
+    return res.status(200).json(editSpot);
   }
 });
 
