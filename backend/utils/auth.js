@@ -72,19 +72,4 @@ const requireAuth = [
   },
 ];
 
-// const requirePermissions = (permissions) => (req, _res, next) => {
-//   const userPermissions = req.user.permissions;
-//   const hasRequiredPermission = permissions.some((permission) =>
-//     userPermissions.includes(permission)
-//   );
-
-//   if (!hasRequiredPermission) {
-//     const err = new Error("Forbidden");
-//     err.title = "Forbidden";
-//     err.errors = { message: "Forbidden" };
-//     err.status = 403;
-//     return next(err);
-//   }
-// };
-
 module.exports = { setTokenCookie, restoreUser, requireAuth };

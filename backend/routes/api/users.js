@@ -69,7 +69,6 @@ router.post("/", validateSignup, async (req, res) => {
     email,
     username,
     hashedPassword,
-    // permissions: ["user"], // Set default permissions
   });
 
   const safeUser = {
@@ -78,7 +77,6 @@ router.post("/", validateSignup, async (req, res) => {
     lastName: user.lastName,
     email: user.email,
     username: user.username,
-    // permissions: user.permissions, // Include permissions
   };
 
   await setTokenCookie(res, safeUser);

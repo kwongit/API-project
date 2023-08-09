@@ -63,7 +63,6 @@ router.get("/", async (req, res) => {
         attributes: ["url"],
       },
     ],
-    // group: ["Spot.id"], // might need to remove, endpoint fails in prod
   });
 
   // Fetch all reviews from the Reviews table
@@ -110,7 +109,9 @@ router.get("/", async (req, res) => {
     };
   });
 
-  return res.status(200).json(spotsWithAvgRatingAndPreviewImage);
+  const spotsResponse = { Spots: spotsWithAvgRatingAndPreviewImage };
+
+  return res.status(200).json(spotsResponse);
 });
 
 // Route to get all spots owned by current user
@@ -129,7 +130,6 @@ router.get("/current", requireAuth, async (req, res) => {
         attributes: ["url"],
       },
     ],
-    // group: ["Spot.id"], // might need to remove, endpoint fails in prod
   });
 
   // Fetch all reviews from the Reviews table
@@ -176,7 +176,9 @@ router.get("/current", requireAuth, async (req, res) => {
     };
   });
 
-  return res.status(200).json(spotsWithAvgRatingAndPreviewImage);
+  const spotsResponse = { Spots: spotsWithAvgRatingAndPreviewImage };
+
+  return res.status(200).json(spotsResponse);
 });
 
 // Route to get details of a spot from an id
