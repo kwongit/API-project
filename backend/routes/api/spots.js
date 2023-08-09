@@ -335,12 +335,34 @@ router.put("/:spotId", requireAuth, validateSpot, async (req, res) => {
       price,
     });
 
-    // let response = {};
-    // response.id = image.id;
-    // response.url = image.url;
-    // response.preview = image.preview;
-
     return res.status(200).json(editSpot);
+  }
+});
+
+// Route to delete a spot
+router.delete("/:spotId", requireAuth, async (req, res) => {
+  const { user } = req;
+
+  let spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
+    });
+  }
+
+  if (user.id !== spot.ownerId) {
+    return res.status(403).json({
+      message: "Forbidden",
+    });
+  }
+
+  if (user.id === spot.ownerId) {
+    spot.destroy();
+
+    return res.status(200).json({
+      message: "Successfully deleted",
+    });
   }
 });
 
