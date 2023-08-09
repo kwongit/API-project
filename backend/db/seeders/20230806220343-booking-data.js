@@ -11,6 +11,20 @@ if (process.env.NODE_ENV === "production") {
 
 const bookings = [
   {
+    spotId: 1,
+    userId: 1,
+    startDate: "2023-08-06",
+    endDate: "2023-08-07",
+  },
+  {
+    spotId: 2,
+    userId: 1,
+    startDate: "2023-08-06",
+    endDate: "2023-08-07",
+  },
+  {
+    spotId: 3,
+    userId: 1,
     startDate: "2023-08-06",
     endDate: "2023-08-07",
   },
