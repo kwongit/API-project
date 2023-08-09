@@ -1,7 +1,7 @@
 const express = require("express");
 
 const { requireAuth } = require("../../utils/auth");
-const { Spot, Review, SpotImage, sequelize } = require("../../db/models");
+const { Spot, Review, SpotImage, User } = require("../../db/models");
 
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
@@ -113,7 +113,7 @@ router.get("/", async (req, res) => {
   return res.status(200).json(spotsWithAvgRatingAndPreviewImage);
 });
 
-// Route to get all spots for current user
+// Route to get all spots owned by current user
 router.get("/current", requireAuth, async (req, res) => {
   const spots = await Spot.findAll({
     where: {
@@ -177,6 +177,73 @@ router.get("/current", requireAuth, async (req, res) => {
   });
 
   return res.status(200).json(spotsWithAvgRatingAndPreviewImage);
+});
+
+// Route to get details of a spot from an id
+router.get("/:spotId", async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId, {
+    include: [
+      {
+        model: Review,
+        attributes: [],
+      },
+      {
+        model: SpotImage,
+        attributes: ["id", "url", "preview"],
+      },
+      {
+        model: User,
+        attributes: ["id", "firstName", "lastName"],
+      },
+    ],
+  });
+
+  if (!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
+  // Fetch all reviews from the Reviews table and filter by id
+  const allReviews = await Review.findAll({
+    where: { spotId: spot.id },
+  });
+
+  const totalStars = allReviews.reduce((sum, review) => sum + review.stars, 0);
+  const avgStarRating =
+    allReviews.length > 0 ? totalStars / allReviews.length : 0;
+
+  const spotImageDetails = spot.SpotImages.map((image) => {
+    return {
+      id: image.id,
+      url: image.url,
+      preview: image.preview,
+    };
+  });
+
+  const spotDetails = {
+    id: spot.id,
+    ownerId: spot.ownerId,
+    address: spot.address,
+    city: spot.city,
+    state: spot.state,
+    country: spot.country,
+    lat: spot.lat,
+    lng: spot.lng,
+    name: spot.name,
+    description: spot.description,
+    price: spot.price,
+    createdAt: spot.createdAt,
+    updatedAt: spot.updatedAt,
+    numReviews: allReviews.length,
+    avgStarRating: avgStarRating,
+    SpotImages: spotImageDetails,
+    Owner: {
+      id: spot.User.id,
+      firstName: spot.User.firstName,
+      lastName: spot.User.lastName,
+    },
+  };
+
+  return res.status(200).json(spotDetails);
 });
 
 // Route to create a new spot
