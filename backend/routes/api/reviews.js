@@ -14,6 +14,18 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
+// Validation middleware for the review creation
+const validateReview = [
+  check("review")
+    .exists({ checkFalsy: true })
+    .withMessage("Review text is required"),
+  check("stars")
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1, max: 5 })
+    .withMessage("Stars must be an integer from 1 to 5"),
+  handleValidationErrors,
+];
+
 // Route to get all reviews of current user
 router.get("/current", requireAuth, async (req, res) => {
   const reviews = await Review.findAll({
@@ -136,6 +148,35 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
   response.url = image.url;
 
   return res.status(200).json(response);
+});
+
+// Route to edit a review
+router.put("/:reviewId", requireAuth, validateReview, async (req, res) => {
+  const { user } = req;
+  const { review, stars } = req.body;
+
+  let reviewToEdit = await Review.findByPk(req.params.reviewId);
+
+  if (!reviewToEdit) {
+    return res.status(404).json({
+      message: "Review couldn't be found",
+    });
+  }
+
+  if (user.id !== reviewToEdit.userId) {
+    return res.status(403).json({
+      message: "Forbidden",
+    });
+  }
+
+  if (user.id === reviewToEdit.userId) {
+    const editReview = await reviewToEdit.update({
+      review,
+      stars,
+    });
+
+    return res.status(200).json(editReview);
+  }
 });
 
 module.exports = router;
