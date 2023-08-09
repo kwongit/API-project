@@ -66,10 +66,6 @@ module.exports = (sequelize, DataTypes) => {
           len: [1, 30],
         },
       },
-      // permissions: {
-      //   type: DataTypes.ARRAY(DataTypes.STRING), // Array of strings for permissions
-      //   defaultValue: [], // Default permissions for new users
-      // },
     },
     {
       sequelize,
