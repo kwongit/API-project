@@ -13,14 +13,68 @@ const reviews = [
   {
     spotId: 1,
     userId: 1,
-    review: "first review for spotId 1 by userId 1",
-    stars: 4,
+    review: "spot1 user1",
+    stars: 1,
   },
   {
     spotId: 1,
     userId: 2,
-    review: "second review for spotId 1 by userId 2",
+    review: "spot1 user2",
+    stars: 2,
+  },
+  {
+    spotId: 2,
+    userId: 3,
+    review: "spot2 user3",
+    stars: 3,
+  },
+  {
+    spotId: 2,
+    userId: 1,
+    review: "spot2 user1",
+    stars: 4,
+  },
+  {
+    spotId: 3,
+    userId: 2,
+    review: "spot3 user2",
     stars: 5,
+  },
+  {
+    spotId: 4,
+    userId: 3,
+    review: "spot4 user3",
+    stars: 1,
+  },
+  {
+    spotId: 5,
+    userId: 1,
+    review: "spot5 user1",
+    stars: 2,
+  },
+  {
+    spotId: 6,
+    userId: 2,
+    review: "spot6 user2",
+    stars: 3,
+  },
+  {
+    spotId: 7,
+    userId: 3,
+    review: "spot7 user3",
+    stars: 4,
+  },
+  {
+    spotId: 8,
+    userId: 1,
+    review: "spot8 user1",
+    stars: 5,
+  },
+  {
+    spotId: 9,
+    userId: 2,
+    review: "spot9 user2",
+    stars: 1,
   },
 ];
 

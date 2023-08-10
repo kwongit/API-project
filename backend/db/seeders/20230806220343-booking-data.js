@@ -18,15 +18,51 @@ const bookings = [
   },
   {
     spotId: 2,
-    userId: 1,
+    userId: 2,
     startDate: "2023-08-06",
     endDate: "2023-08-07",
   },
   {
     spotId: 3,
-    userId: 1,
+    userId: 3,
     startDate: "2023-08-06",
     endDate: "2023-08-07",
+  },
+  {
+    spotId: 4,
+    userId: 1,
+    startDate: "2023-08-08",
+    endDate: "2023-08-09",
+  },
+  {
+    spotId: 5,
+    userId: 2,
+    startDate: "2023-08-08",
+    endDate: "2023-08-09",
+  },
+  {
+    spotId: 6,
+    userId: 3,
+    startDate: "2023-08-08",
+    endDate: "2023-08-09",
+  },
+  {
+    spotId: 7,
+    userId: 1,
+    startDate: "2023-08-10",
+    endDate: "2023-08-11",
+  },
+  {
+    spotId: 8,
+    userId: 2,
+    startDate: "2023-08-10",
+    endDate: "2023-08-11",
+  },
+  {
+    spotId: 9,
+    userId: 3,
+    startDate: "2023-08-10",
+    endDate: "2023-08-11",
   },
 ];
 
