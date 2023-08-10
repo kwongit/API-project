@@ -249,7 +249,7 @@ router.get("/:spotId", async (req, res) => {
     return res.status(404).json({ message: "Spot couldn't be found" });
   }
 
-  // Fetch all reviews from the Reviews table and filter by id
+  // Find all reviews filtered by spot id
   const allReviews = await Review.findAll({
     where: { spotId: spot.id },
   });
@@ -465,14 +465,17 @@ router.post(
 router.get("/:spotId/reviews", async (req, res) => {
   const spotId = req.params.spotId;
 
+  // Find spot based on id
   const spot = await Spot.findByPk(spotId);
 
+  // Check if the spot exists
   if (!spot) {
     return res.status(404).json({
       message: "Spot couldn't be found",
     });
   }
 
+  // Find all reviews filtered by spot id
   const reviews = await Review.findAll({
     where: {
       spotId: spotId,
@@ -499,7 +502,8 @@ router.get("/:spotId/reviews", async (req, res) => {
     createdAt: review.createdAt,
     updatedAt: review.updatedAt,
     User: review.User,
-    ReviewImages: review.ReviewImages,
+    ReviewImages: review.ReviewImages, // why is review.ReviewImages plural?
+    // ReviewImages: review.ReviewImage,
   }));
 
   const reviewsResponse = { Reviews: formattedReviews };
@@ -578,5 +582,62 @@ router.post(
     return res.status(200).json(newBooking);
   }
 );
+
+// Route to get all bookings for spot based on spot id
+router.get("/:spotId/bookings", requireAuth, async (req, res) => {
+  const userId = req.user.id;
+  const spotId = req.params.spotId;
+
+  // Find spot based on id
+  const spot = await Spot.findByPk(spotId);
+
+  // Check if the spot exists
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
+    });
+  }
+
+  // If you ARE NOT the owner of the spot.
+  if (userId !== spot.ownerId) {
+    // Find all bookings filtered by spot id
+    const bookings = await Booking.findAll({
+      where: {
+        spotId: spotId,
+      },
+      attributes: ["spotId", "startDate", "endDate"],
+    });
+
+    const bookingsResponse = { Bookings: bookings };
+    return res.status(200).json(bookingsResponse);
+  }
+
+  // If you ARE the owner of the spot.
+  if (userId === spot.ownerId) {
+    // Find all bookings filtered by spot id
+    const bookings = await Booking.findAll({
+      where: {
+        spotId: spotId,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "firstName", "lastName"],
+        },
+      ],
+      attributes: [
+        "id",
+        "spotId",
+        "userId",
+        "startDate",
+        "endDate",
+        "createdAt",
+        "updatedAt",
+      ],
+    });
+
+    return res.status(200).json({ Bookings: bookings });
+  }
+});
 
 module.exports = router;
