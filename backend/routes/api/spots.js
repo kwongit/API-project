@@ -14,21 +14,21 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
-// // Validate latitude within -90 to 90 degrees
-// const validateLatitude = (value) => {
-//   if (!/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/.test(value)) {
-//     throw new Error("Latitude is not valid");
-//   }
-//   return true;
-// };
+// Validate latitude within -90 to 90 degrees
+const validateLatitude = (value) => {
+  if (!/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/.test(value)) {
+    throw new Error("Latitude is not valid");
+  }
+  return true;
+};
 
-// // Validate longitude within -180 to 180 degrees
-// const validateLongitude = (value) => {
-//   if (!/^[-+]?(180(\.0+)?|((1[0-7]\d)|(\d{1,2}))(\.\d+)?)$/.test(value)) {
-//     throw new Error("Longitude is not valid");
-//   }
-//   return true;
-// };
+// Validate longitude within -180 to 180 degrees
+const validateLongitude = (value) => {
+  if (!/^[-+]?(180(\.0+)?|((1[0-7]\d)|(\d{1,2}))(\.\d+)?)$/.test(value)) {
+    throw new Error("Longitude is not valid");
+  }
+  return true;
+};
 
 // Validation middleware for the spot creation
 const validateSpot = [
@@ -42,16 +42,16 @@ const validateSpot = [
     .withMessage("Country is required"),
   check("lat")
     .exists({ checkFalsy: true })
-    .isDecimal()
-    .withMessage("Latitude is not valid"),
-  // .isLatLong()
-  // .custom(validateLatitude),
+    // .isDecimal()
+    // .isLatLong()
+    // .withMessage("Latitude is not valid"),
+    .custom(validateLatitude),
   check("lng")
     .exists({ checkFalsy: true })
-    .isDecimal()
-    .withMessage("Longitude is not valid"),
-  // .isLatLong()
-  // .custom(validateLongitude),
+    // .isDecimal()
+    // .isLatLong()
+    // .withMessage("Longitude is not valid"),
+    .custom(validateLongitude),
   check("name")
     .exists({ checkFalsy: true })
     .withMessage("Name is required")
@@ -62,7 +62,6 @@ const validateSpot = [
     .withMessage("Description is required"),
   check("price")
     .exists({ checkFalsy: true })
-    // .isDecimal()
     .withMessage("Price per day is required"),
   handleValidationErrors,
 ];
@@ -161,17 +160,17 @@ router.get("/current", requireAuth, async (req, res) => {
     ],
   });
 
-  // Fetch all reviews from the Reviews table
+  // Get all reviews
   const allReviews = await Review.findAll({});
 
-  // Calculate average ratings for each spot
+  // Calculate avgRating for EACH spot
   const spotsWithAvgRatingAndPreviewImage = spots.map((spot) => {
     const spotId = spot.id;
 
-    // Find reviews for the current spot
+    // Filter reviews for CURRENT spot
     const spotReviews = allReviews.filter((review) => review.spotId === spotId);
 
-    // Calculate average stars
+    // Calculate avgRating
     if (spotReviews.length > 0) {
       const totalStars = spotReviews.reduce(
         (sum, review) => sum + review.stars,
@@ -180,11 +179,11 @@ router.get("/current", requireAuth, async (req, res) => {
       const avgStars = totalStars / spotReviews.length;
       spot.avgRating = avgStars;
     } else {
-      spot.avgRating = 0; // Default value if no reviews are available
+      spot.avgRating = 0; // Set default to 0, if there are no reviews
     }
 
     const spotImageUrl =
-      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : "";
+      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : ""; // Set default to "", if url is not available
 
     return {
       id: spot.id,
