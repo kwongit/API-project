@@ -94,17 +94,17 @@ router.get("/", async (req, res) => {
     ],
   });
 
-  // Fetch all reviews from the Reviews table
+  // Get all reviews
   const allReviews = await Review.findAll({});
 
-  // Calculate average ratings for each spot
+  // Calculate avgRating for EACH spot
   const spotsWithAvgRatingAndPreviewImage = spots.map((spot) => {
     const spotId = spot.id;
 
-    // Find reviews for the current spot
+    // Filter reviews for CURRENT spot
     const spotReviews = allReviews.filter((review) => review.spotId === spotId);
 
-    // Calculate average stars
+    // Calculate avgRating
     if (spotReviews.length > 0) {
       const totalStars = spotReviews.reduce(
         (sum, review) => sum + review.stars,
@@ -113,11 +113,11 @@ router.get("/", async (req, res) => {
       const avgStars = totalStars / spotReviews.length;
       spot.avgRating = avgStars;
     } else {
-      spot.avgRating = 0; // Default value if no reviews are available
+      spot.avgRating = 0; // Set default to 0, if there are no reviews
     }
 
     const spotImageUrl =
-      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : "";
+      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : ""; // Set default to "", if url is not available
 
     return {
       id: spot.id,
