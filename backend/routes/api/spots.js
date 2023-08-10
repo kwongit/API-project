@@ -1,4 +1,5 @@
 const express = require("express");
+const { Op } = require("sequelize");
 
 const { requireAuth } = require("../../utils/auth");
 const {
@@ -7,6 +8,7 @@ const {
   SpotImage,
   Review,
   ReviewImage,
+  Booking,
 } = require("../../db/models");
 
 const { check } = require("express-validator");
@@ -75,6 +77,20 @@ const validateReview = [
     .exists({ checkFalsy: true })
     .isInt({ min: 1, max: 5 })
     .withMessage("Stars must be an integer from 1 to 5"),
+  handleValidationErrors,
+];
+
+// Validate date format
+const validateDate = (value, { req }) => {
+  if (new Date(value) <= new Date(req.body.startDate)) {
+    throw new Error("endDate cannot be on or before startDate");
+  }
+  return true;
+};
+
+// Validation middleware for the booking creation
+const validateBooking = [
+  check("endDate").exists({ checkFalsy: true }).custom(validateDate),
   handleValidationErrors,
 ];
 
@@ -228,6 +244,7 @@ router.get("/:spotId", async (req, res) => {
     ],
   });
 
+  // Check if the spot exists
   if (!spot) {
     return res.status(404).json({ message: "Spot couldn't be found" });
   }
@@ -305,6 +322,7 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
 
   let spot = await Spot.findByPk(req.params.spotId);
 
+  // Check if the spot exists
   if (!spot) {
     return res.status(404).json({
       message: "Spot couldn't be found",
@@ -340,6 +358,7 @@ router.put("/:spotId", requireAuth, validateSpot, async (req, res) => {
 
   let spot = await Spot.findByPk(req.params.spotId);
 
+  // Check if the spot exists
   if (!spot) {
     return res.status(404).json({
       message: "Spot couldn't be found",
@@ -375,6 +394,7 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
 
   let spot = await Spot.findByPk(req.params.spotId);
 
+  // Check if the spot exists
   if (!spot) {
     return res.status(404).json({
       message: "Spot couldn't be found",
@@ -406,9 +426,9 @@ router.post(
     const { review, stars } = req.body;
     const userId = req.user.id;
 
-    // Check if the spot exists
     const spot = await Spot.findByPk(spotId);
 
+    // Check if the spot exists
     if (!spot) {
       return res.status(404).json({
         message: "Spot couldn't be found",
@@ -486,5 +506,77 @@ router.get("/:spotId/reviews", async (req, res) => {
 
   return res.status(200).json(reviewsResponse);
 });
+
+// Route to create booking from spot based on spot id
+router.post(
+  "/:spotId/bookings",
+  requireAuth,
+  validateBooking,
+  async (req, res) => {
+    const userId = req.user.id;
+    const spotId = req.params.spotId;
+    let { startDate, endDate } = req.body;
+
+    // Convert to Date objects
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+
+    // Find spot based on id
+    const spot = await Spot.findByPk(spotId);
+
+    // Check if the spot exists
+    if (!spot) {
+      return res.status(404).json({
+        message: "Spot couldn't be found",
+      });
+    }
+
+    // Spot must NOT belong to the current user
+    if (userId === spot.ownerId) {
+      return res.status(403).json({
+        message: "Forbidden",
+      });
+    }
+
+    // Check booking conflicts
+    const existingBooking = await Booking.findOne({
+      where: {
+        spotId,
+        [Op.or]: [
+          {
+            startDate: {
+              [Op.between]: [startDate, endDate],
+            },
+          },
+          {
+            endDate: {
+              [Op.between]: [startDate, endDate],
+            },
+          },
+        ],
+      },
+    });
+
+    if (existingBooking) {
+      return res.status(403).json({
+        message: "Sorry, this spot is already booked for the specified dates",
+        errors: {
+          startDate: "Start date conflicts with an existing booking",
+          endDate: "End date conflicts with an existing booking",
+        },
+      });
+    }
+
+    // Create booking
+    const newBooking = await spot.createBooking({
+      spotId,
+      userId,
+      startDate,
+      endDate,
+    });
+
+    return res.status(200).json(newBooking);
+  }
+);
 
 module.exports = router;
