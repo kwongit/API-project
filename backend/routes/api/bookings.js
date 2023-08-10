@@ -1,4 +1,5 @@
 const express = require("express");
+const { Op } = require("sequelize");
 
 const { requireAuth } = require("../../utils/auth");
 const {
@@ -31,9 +32,11 @@ const validateBooking = [
 
 // Route to get all bookings of current user
 router.get("/current", requireAuth, async (req, res) => {
+  const userId = req.user.id;
+  // Find all bookings filtered by userId
   const bookings = await Booking.findAll({
     where: {
-      userId: req.user.id,
+      userId: userId,
     },
     include: [
       {
@@ -80,34 +83,77 @@ router.get("/current", requireAuth, async (req, res) => {
   return res.status(200).json(bookingsResponse);
 });
 
-// // Route to edit a review
-// router.put("/:reviewId", requireAuth, validateReview, async (req, res) => {
-//   const { user } = req;
-//   const { review, stars } = req.body;
+// Route to edit a booking
+router.put("/:bookingId", requireAuth, validateBooking, async (req, res) => {
+  const userId = req.user.id;
+  const bookingId = req.params.bookingId;
+  let { startDate, endDate } = req.body;
 
-//   let reviewToEdit = await Review.findByPk(req.params.reviewId);
+  // Convert to Date objects
+  startDate = new Date(startDate);
+  endDate = new Date(endDate);
 
-//   if (!reviewToEdit) {
-//     return res.status(404).json({
-//       message: "Review couldn't be found",
-//     });
-//   }
+  // Find booking based on id
+  const booking = await Booking.findByPk(bookingId);
 
-//   if (user.id !== reviewToEdit.userId) {
-//     return res.status(403).json({
-//       message: "Forbidden",
-//     });
-//   }
+  // Check if the booking exists
+  if (!booking) {
+    return res.status(404).json({
+      message: "Booking couldn't be found",
+    });
+  }
 
-//   if (user.id === reviewToEdit.userId) {
-//     const editReview = await reviewToEdit.update({
-//       review,
-//       stars,
-//     });
+  // Booking does not belong to the current user
+  if (userId !== booking.userId) {
+    return res.status(403).json({
+      message: "Forbidden",
+    });
+  }
 
-//     return res.status(200).json(editReview);
-//   }
-// });
+  // Check if past the end date
+  if (new Date() > booking.endDate) {
+    return res.status(403).json({
+      message: "Past bookings can't be modified",
+    });
+  }
+
+  // Check booking conflicts
+  const existingBooking = await Booking.findOne({
+    where: {
+      [Op.or]: [
+        {
+          startDate: {
+            [Op.between]: [startDate, endDate],
+          },
+        },
+        {
+          endDate: {
+            [Op.between]: [startDate, endDate],
+          },
+        },
+      ],
+    },
+  });
+
+  if (existingBooking) {
+    return res.status(403).json({
+      message: "Sorry, this spot is already booked for the specified dates",
+      errors: {
+        startDate: "Start date conflicts with an existing booking",
+        endDate: "End date conflicts with an existing booking",
+      },
+    });
+  }
+
+  if (userId === booking.userId) {
+    const editBooking = await booking.update({
+      startDate,
+      endDate,
+    });
+
+    return res.status(200).json(editBooking);
+  }
+});
 
 // // Route to delete a review
 // router.delete("/:reviewId", requireAuth, async (req, res) => {
