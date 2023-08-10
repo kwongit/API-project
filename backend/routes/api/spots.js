@@ -14,21 +14,21 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
-// Validate latitude within -90 to 90 degrees
-const validateLatitude = (value) => {
-  if (!/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/.test(value)) {
-    throw new Error("Latitude is not valid");
-  }
-  return true;
-};
+// // Validate latitude within -90 to 90 degrees
+// const validateLatitude = (value) => {
+//   if (!/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/.test(value)) {
+//     throw new Error("Latitude is not valid");
+//   }
+//   return true;
+// };
 
-// Validate longitude within -180 to 180 degrees
-const validateLongitude = (value) => {
-  if (!/^[-+]?(180(\.0+)?|((1[0-7]\d)|(\d{1,2}))(\.\d+)?)$/.test(value)) {
-    throw new Error("Longitude is not valid");
-  }
-  return true;
-};
+// // Validate longitude within -180 to 180 degrees
+// const validateLongitude = (value) => {
+//   if (!/^[-+]?(180(\.0+)?|((1[0-7]\d)|(\d{1,2}))(\.\d+)?)$/.test(value)) {
+//     throw new Error("Longitude is not valid");
+//   }
+//   return true;
+// };
 
 // Validation middleware for the spot creation
 const validateSpot = [
@@ -40,8 +40,18 @@ const validateSpot = [
   check("country")
     .exists({ checkFalsy: true })
     .withMessage("Country is required"),
-  check("lat").exists({ checkFalsy: true }).custom(validateLatitude),
-  check("lng").exists({ checkFalsy: true }).custom(validateLongitude),
+  check("lat")
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage("Latitude is not valid"),
+  // .isLatLong()
+  // .custom(validateLatitude),
+  check("lng")
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage("Longitude is not valid"),
+  // .isLatLong()
+  // .custom(validateLongitude),
   check("name")
     .exists({ checkFalsy: true })
     .withMessage("Name is required")
@@ -52,6 +62,7 @@ const validateSpot = [
     .withMessage("Description is required"),
   check("price")
     .exists({ checkFalsy: true })
+    // .isDecimal()
     .withMessage("Price per day is required"),
   handleValidationErrors,
 ];
