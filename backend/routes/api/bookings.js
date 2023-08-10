@@ -155,31 +155,38 @@ router.put("/:bookingId", requireAuth, validateBooking, async (req, res) => {
   }
 });
 
-// // Route to delete a review
-// router.delete("/:reviewId", requireAuth, async (req, res) => {
-//   const { user } = req;
+// Route to delete a booking
+router.delete("/:bookingId", requireAuth, async (req, res) => {
+  const userId = req.user.id;
+  const bookingId = req.params.bookingId;
 
-//   let reviewToDelete = await Review.findByPk(req.params.reviewId);
+  let bookingToDelete = await Booking.findByPk(bookingId);
 
-//   if (!reviewToDelete) {
-//     return res.status(404).json({
-//       message: "Review couldn't be found",
-//     });
-//   }
+  if (!bookingToDelete) {
+    return res.status(404).json({
+      message: "Booking couldn't be found",
+    });
+  }
 
-//   if (user.id !== reviewToDelete.userId) {
-//     return res.status(403).json({
-//       message: "Forbidden",
-//     });
-//   }
+  if (userId !== bookingToDelete.userId) {
+    return res.status(403).json({
+      message: "Forbidden",
+    });
+  }
 
-//   if (user.id === reviewToDelete.userId) {
-//     reviewToDelete.destroy();
+  if (bookingToDelete.startDate > new Date()) {
+    return res.status(403).json({
+      message: "Bookings that have been started can't be deleted",
+    });
+  }
 
-//     return res.status(200).json({
-//       message: "Successfully deleted",
-//     });
-//   }
-// });
+  if (userId === bookingToDelete.userId) {
+    bookingToDelete.destroy();
+
+    return res.status(200).json({
+      message: "Successfully deleted",
+    });
+  }
+});
 
 module.exports = router;
