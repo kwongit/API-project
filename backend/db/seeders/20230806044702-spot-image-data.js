@@ -11,17 +11,47 @@ if (process.env.NODE_ENV === "production") {
 const spotImages = [
   {
     spotId: 1,
-    url: "image url",
+    url: "image url 1",
     preview: true,
   },
   {
     spotId: 2,
-    url: "image url2",
+    url: "image url 2",
     preview: true,
   },
   {
     spotId: 3,
-    url: "image url3",
+    url: "image url 3",
+    preview: true,
+  },
+  {
+    spotId: 4,
+    url: "image url 4",
+    preview: true,
+  },
+  {
+    spotId: 5,
+    url: "image url 5",
+    preview: true,
+  },
+  {
+    spotId: 6,
+    url: "image url 6",
+    preview: true,
+  },
+  {
+    spotId: 7,
+    url: "image url 7",
+    preview: true,
+  },
+  {
+    spotId: 8,
+    url: "image url 8",
+    preview: true,
+  },
+  {
+    spotId: 9,
+    url: "image url 9",
     preview: true,
   },
 ];
