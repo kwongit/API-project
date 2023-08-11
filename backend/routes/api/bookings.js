@@ -2,14 +2,7 @@ const express = require("express");
 const { Op } = require("sequelize");
 
 const { requireAuth } = require("../../utils/auth");
-const {
-  User,
-  Spot,
-  SpotImage,
-  Review,
-  ReviewImage,
-  Booking,
-} = require("../../db/models");
+const { Spot, SpotImage, Booking } = require("../../db/models");
 
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
@@ -24,16 +17,17 @@ const validateDate = (value, { req }) => {
   return true;
 };
 
-// Validation middleware for the booking creation
+// Validation middleware for booking creation
 const validateBooking = [
   check("endDate").exists({ checkFalsy: true }).custom(validateDate),
   handleValidationErrors,
 ];
 
-// Route to get all bookings of current user
+// get all current user's bookings
 router.get("/current", requireAuth, async (req, res) => {
   const userId = req.user.id;
-  // Find all bookings filtered by userId
+
+  // find all bookings by userId
   const bookings = await Booking.findAll({
     where: {
       userId: userId,
@@ -51,8 +45,8 @@ router.get("/current", requireAuth, async (req, res) => {
     ],
   });
 
-  // Transform the bookings
-  const formattedBookings = bookings.map((booking) => ({
+  // manipulate bookings array
+  const newBookings = bookings.map((booking) => ({
     id: booking.id,
     spotId: booking.spotId,
     userId: booking.userId,
@@ -78,46 +72,45 @@ router.get("/current", requireAuth, async (req, res) => {
     },
   }));
 
-  const bookingsResponse = { Bookings: formattedBookings };
-
+  const bookingsResponse = { Bookings: newBookings };
   return res.status(200).json(bookingsResponse);
 });
 
-// Route to edit a booking
+// edit a booking
 router.put("/:bookingId", requireAuth, validateBooking, async (req, res) => {
   const userId = req.user.id;
   const bookingId = req.params.bookingId;
   let { startDate, endDate } = req.body;
 
-  // Convert to Date objects
+  // convert to Date objects
   startDate = new Date(startDate);
   endDate = new Date(endDate);
 
-  // Find booking based on id
+  // find booking by bookingId
   const booking = await Booking.findByPk(bookingId);
 
-  // Check if the booking exists
+  // check if booking exists
   if (!booking) {
     return res.status(404).json({
       message: "Booking couldn't be found",
     });
   }
 
-  // Booking does not belong to the current user
+  // check if booking belongs to user
   if (userId !== booking.userId) {
     return res.status(403).json({
       message: "Forbidden",
     });
   }
 
-  // Check if past the end date
+  // check if past the end date
   if (new Date() > booking.endDate) {
     return res.status(403).json({
       message: "Past bookings can't be modified",
     });
   }
 
-  // Check booking conflicts
+  // check booking conflicts
   const existingBooking = await Booking.findOne({
     where: {
       [Op.or]: [
@@ -135,6 +128,7 @@ router.put("/:bookingId", requireAuth, validateBooking, async (req, res) => {
     },
   });
 
+  // if exists, means conflict
   if (existingBooking) {
     return res.status(403).json({
       message: "Sorry, this spot is already booked for the specified dates",
@@ -145,6 +139,7 @@ router.put("/:bookingId", requireAuth, validateBooking, async (req, res) => {
     });
   }
 
+  // check if booking belongs to user, if so, allow update
   if (userId === booking.userId) {
     const editBooking = await booking.update({
       startDate,
@@ -155,33 +150,38 @@ router.put("/:bookingId", requireAuth, validateBooking, async (req, res) => {
   }
 });
 
-// Route to delete a booking
+// delete a booking
 router.delete("/:bookingId", requireAuth, async (req, res) => {
   const userId = req.user.id;
   const bookingId = req.params.bookingId;
 
-  let bookingToDelete = await Booking.findByPk(bookingId);
+  // find booking by bookingId
+  const booking = await Booking.findByPk(bookingId);
 
-  if (!bookingToDelete) {
+  // check if booking exists
+  if (!booking) {
     return res.status(404).json({
       message: "Booking couldn't be found",
     });
   }
 
-  if (userId !== bookingToDelete.userId) {
+  // check if booking belongs to user
+  if (userId !== booking.userId) {
     return res.status(403).json({
       message: "Forbidden",
     });
   }
 
-  if (bookingToDelete.startDate > new Date()) {
+  // check if date started
+  if (booking.startDate > new Date()) {
     return res.status(403).json({
       message: "Bookings that have been started can't be deleted",
     });
   }
 
-  if (userId === bookingToDelete.userId) {
-    bookingToDelete.destroy();
+  // check if booking belongs to user, if so, allow delete
+  if (userId === booking.userId) {
+    booking.destroy();
 
     return res.status(200).json({
       message: "Successfully deleted",

@@ -14,7 +14,7 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
-// Validation middleware for the review creation
+// Validation middleware for review creation
 const validateReview = [
   check("review")
     .exists({ checkFalsy: true })
@@ -26,11 +26,14 @@ const validateReview = [
   handleValidationErrors,
 ];
 
-// Route to get all reviews of current user
+// get reviews of current user
 router.get("/current", requireAuth, async (req, res) => {
+  const userId = req.user.id;
+
+  // find all reviews by userId
   const reviews = await Review.findAll({
     where: {
-      userId: req.user.id,
+      userId: userId,
     },
     include: [
       {
@@ -39,19 +42,6 @@ router.get("/current", requireAuth, async (req, res) => {
       },
       {
         model: Spot,
-        // Not needed
-        // attributes: [
-        //   "id",
-        //   "ownerId",
-        //   "address",
-        //   "city",
-        //   "state",
-        //   "country",
-        //   "lat",
-        //   "lng",
-        //   "name",
-        //   "price",
-        // ],
         include: [
           {
             model: SpotImage,
@@ -64,20 +54,10 @@ router.get("/current", requireAuth, async (req, res) => {
         attributes: ["id", "url"],
       },
     ],
-    // Not needed
-    // attributes: [
-    //   "id",
-    //   "userId",
-    //   "spotId",
-    //   "review",
-    //   "stars",
-    //   "createdAt",
-    //   "updatedAt",
-    // ],
   });
 
-  // Transform the reviews
-  const formattedReviews = reviews.map((review) => ({
+  // manipulate reviews array
+  const newReviews = reviews.map((review) => ({
     id: review.id,
     userId: review.userId,
     spotId: review.spotId,
@@ -103,17 +83,18 @@ router.get("/current", requireAuth, async (req, res) => {
     ReviewImages: review.ReviewImages,
   }));
 
-  const reviewsResponse = { Reviews: formattedReviews };
-
+  const reviewsResponse = { Reviews: newReviews };
   return res.status(200).json(reviewsResponse);
 });
 
-// Route to add image to review based on review id
+// create an image for a review
 router.post("/:reviewId/images", requireAuth, async (req, res) => {
-  const { user } = req;
+  const userId = req.user.id;
+  const reviewId = req.params.reviewId;
   const { url } = req.body;
 
-  let review = await Review.findByPk(req.params.reviewId, {
+  // find review by reviewId
+  const review = await Review.findByPk(reviewId, {
     include: [
       {
         model: ReviewImage,
@@ -121,24 +102,28 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
     ],
   });
 
+  // check if review exists
   if (!review) {
     return res.status(404).json({
       message: "Review couldn't be found",
     });
   }
 
-  if (user.id !== review.userId) {
+  // check if review belongs to user
+  if (userId !== review.userId) {
     return res.status(403).json({
       message: "Forbidden",
     });
   }
 
+  // cannot have more than 10 images
   if (review.ReviewImages.length >= 10) {
     return res.status(403).json({
       message: "Maximum number of images for this resource was reached",
     });
   }
 
+  // create image
   const image = await review.createReviewImage({
     url: url,
   });
@@ -150,26 +135,31 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
   return res.status(200).json(response);
 });
 
-// Route to edit a review
+// edit a review
 router.put("/:reviewId", requireAuth, validateReview, async (req, res) => {
-  const { user } = req;
+  const userId = req.user.id;
+  const reviewId = req.params.reviewId;
   const { review, stars } = req.body;
 
-  let reviewToEdit = await Review.findByPk(req.params.reviewId);
+  // find review by reviewId
+  const reviewToEdit = await Review.findByPk(reviewId);
 
+  // check if review exists
   if (!reviewToEdit) {
     return res.status(404).json({
       message: "Review couldn't be found",
     });
   }
 
-  if (user.id !== reviewToEdit.userId) {
+  // check if review belongs to user
+  if (userId !== reviewToEdit.userId) {
     return res.status(403).json({
       message: "Forbidden",
     });
   }
 
-  if (user.id === reviewToEdit.userId) {
+  // if so, allow update
+  if (userId === reviewToEdit.userId) {
     const editReview = await reviewToEdit.update({
       review,
       stars,
@@ -179,26 +169,31 @@ router.put("/:reviewId", requireAuth, validateReview, async (req, res) => {
   }
 });
 
-// Route to delete a review
+// delete a review
 router.delete("/:reviewId", requireAuth, async (req, res) => {
-  const { user } = req;
+  const userId = req.user.id;
+  const reviewId = req.params.reviewId;
 
-  let reviewToDelete = await Review.findByPk(req.params.reviewId);
+  // find review by reviewId
+  const review = await Review.findByPk(reviewId);
 
-  if (!reviewToDelete) {
+  // check if review exists
+  if (!review) {
     return res.status(404).json({
       message: "Review couldn't be found",
     });
   }
 
-  if (user.id !== reviewToDelete.userId) {
+  // check if review belongs to user
+  if (userId !== review.userId) {
     return res.status(403).json({
       message: "Forbidden",
     });
   }
 
-  if (user.id === reviewToDelete.userId) {
-    reviewToDelete.destroy();
+  // if so, allow delete
+  if (userId === review.userId) {
+    review.destroy();
 
     return res.status(200).json({
       message: "Successfully deleted",

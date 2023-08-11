@@ -5,14 +5,14 @@ const { Review, ReviewImage } = require("../../db/models");
 
 const router = express.Router();
 
-// Route to delete a review image
+// delete a review image
 router.delete("/:imageId", requireAuth, async (req, res) => {
   const imageId = req.params.imageId;
   const userId = req.user.id;
 
   let reviewImg = await ReviewImage.findByPk(imageId);
 
-  // Check if the review image exists
+  // check if review image exists
   if (!reviewImg) {
     return res.status(404).json({
       message: "Review Image couldn't be found",

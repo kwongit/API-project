@@ -32,7 +32,7 @@ const validateLongitude = (value) => {
   return true;
 };
 
-// Validation middleware for the spot creation
+// Validation middleware for spot creation
 const validateSpot = [
   check("address")
     .exists({ checkFalsy: true })
@@ -68,7 +68,7 @@ const validateSpot = [
   handleValidationErrors,
 ];
 
-// Validation middleware for the review creation
+// Validation middleware for review creation
 const validateReview = [
   check("review")
     .exists({ checkFalsy: true })
@@ -94,6 +94,7 @@ const validateBooking = [
   handleValidationErrors,
 ];
 
+// TODO: start here!!!
 // Route to get all spots
 router.get("/", async (req, res) => {
   const spots = await Spot.findAll({
@@ -128,11 +129,13 @@ router.get("/", async (req, res) => {
       const avgStars = totalStars / spotReviews.length;
       spot.avgRating = avgStars;
     } else {
-      spot.avgRating = 0; // Set default to 0, if there are no reviews
+      // Set default to 0, if there are no reviews
+      spot.avgRating = 0;
     }
 
     const spotImageUrl =
-      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : ""; // Set default to "", if url is not available
+      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : "";
+    // Set default to "", if url is not available
 
     return {
       id: spot.id,
@@ -195,11 +198,11 @@ router.get("/current", requireAuth, async (req, res) => {
       const avgStars = totalStars / spotReviews.length;
       spot.avgRating = avgStars;
     } else {
-      spot.avgRating = 0; // Set default to 0, if there are no reviews
+      spot.avgRating = 0;
     }
 
     const spotImageUrl =
-      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : ""; // Set default to "", if url is not available
+      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : "";
 
     return {
       id: spot.id,
@@ -502,8 +505,7 @@ router.get("/:spotId/reviews", async (req, res) => {
     createdAt: review.createdAt,
     updatedAt: review.updatedAt,
     User: review.User,
-    ReviewImages: review.ReviewImages, // why is review.ReviewImages plural?
-    // ReviewImages: review.ReviewImage,
+    ReviewImages: review.ReviewImages,
   }));
 
   const reviewsResponse = { Reviews: formattedReviews };
