@@ -94,6 +94,43 @@ const validateBooking = [
   handleValidationErrors,
 ];
 
+// Validation middleware for the query filters
+const validateQueryFilters = [
+  check("page")
+    .optional()
+    .isInt({ min: 1, max: 10 })
+    .withMessage("Page must be greater than or equal to 1"),
+  check("size")
+    .optional()
+    .isInt({ min: 1, max: 20 })
+    .withMessage("Size must be greater than or equal to 1"),
+  check("maxLat")
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum latitude is invalid"),
+  check("minLat")
+    .optional()
+    .isDecimal()
+    .withMessage("Minimum latitude is invalid"),
+  check("maxLng")
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum longitude is invalid"),
+  check("minLng")
+    .optional()
+    .isDecimal()
+    .withMessage("Minimum longitude is invalid"),
+  check("maxPrice")
+    .optional()
+    .isDecimal({ min: 0 })
+    .withMessage("Maximum price must be greater than or equal to 0"),
+  check("minPrice")
+    .optional()
+    .isDecimal({ min: 0 })
+    .withMessage("Minimum price must be greater than or equal to 0"),
+  handleValidationErrors,
+];
+
 // Function to calculate avgRating and previewImage for EACH spot
 const calculateAvgRatingAndPreviewImage = (spots, reviews) => {
   const spotsWithAvgRatingAndPreviewImage = [];
@@ -144,8 +181,17 @@ const calculateAvgRatingAndPreviewImage = (spots, reviews) => {
   return spotsWithAvgRatingAndPreviewImage;
 };
 
-// get all spots
-router.get("/", async (req, res) => {
+// get all spots w/ query filters
+router.get("/", validateQueryFilters, async (req, res) => {
+  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
+    req.query;
+
+  page = parseInt(page);
+  size = parseInt(size);
+
+  if (Number.isNaN(page)) page = 1;
+  if (Number.isNaN(size)) size = 20;
+
   // find all spots associated with reviews and spotImages
   const spots = await Spot.findAll({
     include: [
@@ -158,6 +204,8 @@ router.get("/", async (req, res) => {
         attributes: ["url"],
       },
     ],
+    limit: size,
+    offset: size * (page - 1),
   });
 
   // find all reviews
@@ -167,7 +215,11 @@ router.get("/", async (req, res) => {
   const spotsResponse = calculateAvgRatingAndPreviewImage(spots, reviews);
 
   // restructure Spots response
-  const response = { Spots: spotsResponse };
+  const response = {
+    Spots: spotsResponse,
+    page: page,
+    size: size,
+  };
   return res.status(200).json(response);
 });
 
