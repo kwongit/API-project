@@ -10,7 +10,8 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
   const imageId = req.params.imageId;
   const userId = req.user.id;
 
-  let spotImg = await SpotImage.findByPk(imageId);
+  // find spot image by imageId
+  const spotImg = await SpotImage.findByPk(imageId);
 
   // check if spot image exists
   if (!spotImg) {
@@ -29,12 +30,11 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
     });
   }
 
-  if (userId === spot.ownerId) {
-    spotImg.destroy();
+  await spotImg.destroy();
 
-    return res.status(200).json({
-      message: "Successfully deleted",
-    });
-  }
+  return res.status(200).json({
+    message: "Successfully deleted",
+  });
 });
+
 module.exports = router;

@@ -10,7 +10,8 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
   const imageId = req.params.imageId;
   const userId = req.user.id;
 
-  let reviewImg = await ReviewImage.findByPk(imageId);
+  // find review image by imageId
+  const reviewImg = await ReviewImage.findByPk(imageId);
 
   // check if review image exists
   if (!reviewImg) {
@@ -29,12 +30,11 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
     });
   }
 
-  if (userId === review.userId) {
-    reviewImg.destroy();
+  await reviewImg.destroy();
 
-    return res.status(200).json({
-      message: "Successfully deleted",
-    });
-  }
+  return res.status(200).json({
+    message: "Successfully deleted",
+  });
 });
+
 module.exports = router;

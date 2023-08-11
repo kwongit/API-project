@@ -30,7 +30,7 @@ router.get("/current", requireAuth, async (req, res) => {
   // find all bookings by userId
   const bookings = await Booking.findAll({
     where: {
-      userId: userId,
+      userId,
     },
     include: [
       {
@@ -45,35 +45,61 @@ router.get("/current", requireAuth, async (req, res) => {
     ],
   });
 
-  // manipulate bookings array
-  const newBookings = bookings.map((booking) => ({
-    id: booking.id,
-    spotId: booking.spotId,
-    userId: booking.userId,
-    startDate: booking.startDate,
-    endDate: booking.endDate,
-    createdAt: booking.createdAt,
-    updatedAt: booking.updatedAt,
-    Spot: {
-      id: booking.Spot.id,
-      ownerId: booking.Spot.ownerId,
-      address: booking.Spot.address,
-      city: booking.Spot.city,
-      state: booking.Spot.state,
-      country: booking.Spot.country,
-      lat: booking.Spot.lat,
-      lng: booking.Spot.lng,
-      name: booking.Spot.name,
-      price: booking.Spot.price,
-      previewImage:
-        booking.Spot.SpotImages.length > 0
-          ? booking.Spot.SpotImages[0].url
-          : "",
-    },
-  }));
+  // map new bookings array to handle Spot > SpotImage
+  const newBookings = bookings.map((booking) => {
+    // destructure bookings
+    const {
+      id,
+      // spotId,
+      startDate,
+      endDate,
+      createdAt,
+      updatedAt,
+      Spot: {
+        id: spotId,
+        ownerId,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        price,
+        SpotImages,
+      },
+    } = booking;
 
-  const bookingsResponse = { Bookings: newBookings };
-  return res.status(200).json(bookingsResponse);
+    const previewImage = SpotImages.length > 0 ? SpotImages[0].url : "";
+
+    // return new bookings array of objects
+    return {
+      id,
+      spotId,
+      userId,
+      startDate,
+      endDate,
+      createdAt,
+      updatedAt,
+      Spot: {
+        id: spotId,
+        ownerId,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        price,
+        previewImage,
+      },
+    };
+  });
+
+  // restructure Bookings response
+  const response = { Bookings: newBookings };
+  return res.status(200).json(response);
 });
 
 // edit a booking
@@ -139,15 +165,12 @@ router.put("/:bookingId", requireAuth, validateBooking, async (req, res) => {
     });
   }
 
-  // check if booking belongs to user, if so, allow update
-  if (userId === booking.userId) {
-    const editBooking = await booking.update({
-      startDate,
-      endDate,
-    });
+  const updatedBooking = await booking.update({
+    startDate,
+    endDate,
+  });
 
-    return res.status(200).json(editBooking);
-  }
+  return res.status(200).json(updatedBooking);
 });
 
 // delete a booking
@@ -179,14 +202,11 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
     });
   }
 
-  // check if booking belongs to user, if so, allow delete
-  if (userId === booking.userId) {
-    booking.destroy();
+  await booking.destroy();
 
-    return res.status(200).json({
-      message: "Successfully deleted",
-    });
-  }
+  return res.status(200).json({
+    message: "Successfully deleted",
+  });
 });
 
 module.exports = router;

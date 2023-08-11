@@ -33,7 +33,7 @@ router.get("/current", requireAuth, async (req, res) => {
   // find all reviews by userId
   const reviews = await Review.findAll({
     where: {
-      userId: userId,
+      userId,
     },
     include: [
       {
@@ -56,35 +56,68 @@ router.get("/current", requireAuth, async (req, res) => {
     ],
   });
 
-  // manipulate reviews array
-  const newReviews = reviews.map((review) => ({
-    id: review.id,
-    userId: review.userId,
-    spotId: review.spotId,
-    review: review.review,
-    stars: review.stars,
-    createdAt: review.createdAt,
-    updatedAt: review.updatedAt,
-    User: review.User,
-    Spot: {
-      id: review.Spot.id,
-      ownerId: review.Spot.ownerId,
-      address: review.Spot.address,
-      city: review.Spot.city,
-      state: review.Spot.state,
-      country: review.Spot.country,
-      lat: review.Spot.lat,
-      lng: review.Spot.lng,
-      name: review.Spot.name,
-      price: review.Spot.price,
-      previewImage:
-        review.Spot.SpotImages.length > 0 ? review.Spot.SpotImages[0].url : "",
-    },
-    ReviewImages: review.ReviewImages,
-  }));
+  // map new reviews array to handle Spot > SpotImage > ReviewImage
+  const newReviews = reviews.map((review) => {
+    // destructure reviews
+    const {
+      id,
+      userId,
+      // spotId,
+      // review,
+      review: reviewText,
+      stars,
+      createdAt,
+      updatedAt,
+      User,
+      Spot: {
+        id: spotId,
+        ownerId,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        price,
+        SpotImages,
+      },
+      ReviewImages,
+    } = review;
 
-  const reviewsResponse = { Reviews: newReviews };
-  return res.status(200).json(reviewsResponse);
+    const previewImage = SpotImages.length > 0 ? SpotImages[0].url : "";
+
+    // return new reviews array of objects
+    return {
+      id,
+      userId,
+      spotId,
+      // review,
+      review: reviewText,
+      stars,
+      createdAt,
+      updatedAt,
+      User,
+      Spot: {
+        id: spotId,
+        ownerId,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        price,
+        previewImage,
+      },
+      ReviewImages,
+    };
+  });
+
+  // restructure Reviews response
+  const response = { Reviews: newReviews };
+  return res.status(200).json(response);
 });
 
 // create an image for a review
@@ -123,14 +156,14 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
     });
   }
 
-  // create image
   const image = await review.createReviewImage({
     url: url,
   });
 
-  let response = {};
-  response.id = image.id;
-  response.url = image.url;
+  const response = {
+    id: image.id,
+    url: image.url,
+  };
 
   return res.status(200).json(response);
 });
@@ -158,15 +191,12 @@ router.put("/:reviewId", requireAuth, validateReview, async (req, res) => {
     });
   }
 
-  // if so, allow update
-  if (userId === reviewToEdit.userId) {
-    const editReview = await reviewToEdit.update({
-      review,
-      stars,
-    });
+  const updatedReview = await reviewToEdit.update({
+    review,
+    stars,
+  });
 
-    return res.status(200).json(editReview);
-  }
+  return res.status(200).json(updatedReview);
 });
 
 // delete a review
@@ -191,14 +221,11 @@ router.delete("/:reviewId", requireAuth, async (req, res) => {
     });
   }
 
-  // if so, allow delete
-  if (userId === review.userId) {
-    review.destroy();
+  await review.destroy();
 
-    return res.status(200).json({
-      message: "Successfully deleted",
-    });
-  }
+  return res.status(200).json({
+    message: "Successfully deleted",
+  });
 });
 
 module.exports = router;
