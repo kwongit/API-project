@@ -27,7 +27,7 @@ const validateBooking = [
 router.get("/current", requireAuth, async (req, res) => {
   const userId = req.user.id;
 
-  // find all bookings by userId
+  // find all bookings by userId associated with spots, spotImages
   const bookings = await Booking.findAll({
     where: {
       userId,
@@ -38,7 +38,7 @@ router.get("/current", requireAuth, async (req, res) => {
         include: [
           {
             model: SpotImage,
-            attributes: ["url"],
+            attributes: ["url", "preview"],
           },
         ],
       },
@@ -70,7 +70,17 @@ router.get("/current", requireAuth, async (req, res) => {
       },
     } = booking;
 
-    const previewImage = SpotImages.length > 0 ? SpotImages[0].url : "";
+    let spotImageUrl = "";
+
+    // check if there are SpotImages
+    for (const spotImage of SpotImages) {
+      if (spotImage.preview) {
+        spotImageUrl = spotImage.url;
+        break;
+      }
+    }
+
+    const previewImage = spotImageUrl;
 
     // return new bookings array of objects
     return {
