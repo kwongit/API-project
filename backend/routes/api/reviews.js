@@ -30,7 +30,7 @@ const validateReview = [
 router.get("/current", requireAuth, async (req, res) => {
   const userId = req.user.id;
 
-  // find all reviews by userId
+  // find all reviews by userId associated with users, spots, spotImages, reviewImages
   const reviews = await Review.findAll({
     where: {
       userId,
