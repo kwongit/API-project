@@ -152,8 +152,15 @@ const calculateAvgRatingAndPreviewImage = (spots, reviews) => {
     const avgRating =
       spotReviews.length > 0 ? totalStars / spotReviews.length : 0;
 
-    const spotImageUrl =
-      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : "";
+    let spotImageUrl = "";
+
+    // check if there are SpotImages
+    for (const spotImage of spot.SpotImages) {
+      if (spotImage.preview) {
+        spotImageUrl = spotImage.url;
+        break;
+      }
+    }
 
     // construct updated spot object with avgRating and previewImage
     const updatedSpot = {
@@ -201,7 +208,7 @@ router.get("/", validateQueryFilters, async (req, res) => {
       },
       {
         model: SpotImage,
-        attributes: ["url"],
+        attributes: ["url", "preview"],
       },
     ],
     limit: size,
@@ -239,7 +246,7 @@ router.get("/current", requireAuth, async (req, res) => {
       },
       {
         model: SpotImage,
-        attributes: ["url"],
+        attributes: ["url", "preview"],
       },
     ],
   });

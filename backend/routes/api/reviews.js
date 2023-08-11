@@ -45,7 +45,7 @@ router.get("/current", requireAuth, async (req, res) => {
         include: [
           {
             model: SpotImage,
-            attributes: ["url"],
+            attributes: ["url", "preview"],
           },
         ],
       },
@@ -85,7 +85,17 @@ router.get("/current", requireAuth, async (req, res) => {
       ReviewImages,
     } = review;
 
-    const previewImage = SpotImages.length > 0 ? SpotImages[0].url : "";
+    let spotImageUrl = "";
+
+    // check if there are SpotImages
+    for (const spotImage of SpotImages) {
+      if (spotImage.preview) {
+        spotImageUrl = spotImage.url;
+        break;
+      }
+    }
+
+    const previewImage = spotImageUrl;
 
     // return new reviews array of objects
     return {
