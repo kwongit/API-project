@@ -1,8 +1,9 @@
 // frontend/src/components/LoginFormPage/index.js
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import "./LoginForm.css";
 
 function LoginFormPage() {
   const dispatch = useDispatch();
@@ -10,19 +11,6 @@ function LoginFormPage() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    const errors = {};
-
-    if (credential.length < 4) {
-      errors.credential = "Username must be 4 characters or more";
-    }
-    if (password.length < 6) {
-      errors.password = "Password must be 6 characters or more";
-    }
-
-    setErrors(errors);
-  }, [credential, password]);
 
   if (sessionUser) return <Redirect to="/" />;
 
@@ -59,10 +47,6 @@ function LoginFormPage() {
             required
           />
         </label>
-        {errors.credential && credential.length > 0 && (
-          <p>{errors.credential}</p>
-        )}
-        {errors.password && password.length > 0 && <p>{errors.password}</p>}
         <button type="submit">Log In</button>
       </form>
     </>
