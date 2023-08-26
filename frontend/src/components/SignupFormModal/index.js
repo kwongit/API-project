@@ -44,6 +44,7 @@ function SignupFormModal() {
 
   return (
     <>
+      <img className="logo" src="../icon/chillbnb.png" alt="chillbnb" />
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <label>

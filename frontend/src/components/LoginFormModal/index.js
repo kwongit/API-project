@@ -43,6 +43,7 @@ function LoginFormModal() {
 
   return (
     <>
+      <img className="logo" src="../icon/chillbnb.png" alt="chillbnb" />
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
