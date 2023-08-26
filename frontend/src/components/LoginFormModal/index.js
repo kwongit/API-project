@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
@@ -7,25 +6,23 @@ import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
-
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-
   const { closeModal } = useModal();
 
-  const history = useHistory();
-
-  // useEffect(() => {
-  //   const errors = {};
-  //   if (credential.length < 4) {
-  //     errors.credential = "Username must be 4 characters or more";
-  //   }
-  //   if (password.length < 6) {
-  //     errors.password = "Password must be 6 characters or more";
-  //   }
-  //   setErrors(errors);
-  // }, [credential, password]);
+  useEffect(() => {
+    const errors = {};
+    if (credential.length < 4) {
+      // errors.credential = "Username must be 4 characters or more";
+      errors.credential = "";
+    }
+    if (password.length < 6) {
+      // errors.password = "Password must be 6 characters or more";
+      errors.password = "";
+    }
+    setErrors(errors);
+  }, [credential, password]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,20 +38,16 @@ function LoginFormModal() {
       });
   };
 
-  const handleLogoClick = () => {
-    history.push("/");
+  const handleDemoLogin = (e) => {
+    e.preventDefault();
+
+    return dispatch(
+      sessionActions.login({ credential: "Demo-lition", password: "password1" })
+    ).then(closeModal);
   };
 
   return (
     <>
-      {/* <NavLink exact to="/">
-        <img
-          className="logo"
-          src="../icon/logo.png"
-          alt="logo"
-          onClick={handleLogoClick}
-        />
-      </NavLink> */}
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -75,10 +68,18 @@ function LoginFormModal() {
             required
           />
         </label>
-
         {errors.credential && <p>{errors.credential}</p>}
 
-        <button type="submit">Log In</button>
+        <button
+          type="submit"
+          className="login-button"
+          disabled={Object.keys(errors).length > 0}
+        >
+          Log In
+        </button>
+        <button className="demo-user-button" onClick={handleDemoLogin}>
+          Log in as Demo User
+        </button>
       </form>
     </>
   );
