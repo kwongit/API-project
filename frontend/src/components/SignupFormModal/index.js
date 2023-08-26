@@ -50,15 +50,14 @@ function SignupFormModal() {
 
   return (
     <>
-      {/* <img className="logo" src="../icon/logo.png" alt="logo" /> */}
-      <NavLink exact to="/">
+      {/* <NavLink exact to="/">
         <img
           className="logo"
           src="../icon/logo.png"
           alt="logo"
           onClick={handleLogoClick}
         />
-      </NavLink>
+      </NavLink> */}
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <label>

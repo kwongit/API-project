@@ -13,23 +13,25 @@ function Navigation({ isLoaded }) {
   };
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">
-          <img
-            className="logo"
-            src="../icon/logo.png"
-            alt="logo"
-            onClick={handleLogoClick}
-          />
-        </NavLink>
-      </li>
-      {isLoaded && (
+    <>
+      <ul className="nav-list">
         <li>
-          <ProfileButton user={sessionUser} />
+          <NavLink exact to="/">
+            <img
+              className="logo"
+              src="../icon/logo.png"
+              alt="logo"
+              onClick={handleLogoClick}
+            />
+          </NavLink>
         </li>
-      )}
-    </ul>
+        {isLoaded && (
+          <li id="profile-button">
+            <ProfileButton user={sessionUser} />
+          </li>
+        )}
+      </ul>
+    </>
   );
 }
 

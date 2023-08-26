@@ -47,14 +47,14 @@ function LoginFormModal() {
 
   return (
     <>
-      <NavLink exact to="/">
+      {/* <NavLink exact to="/">
         <img
           className="logo"
           src="../icon/logo.png"
           alt="logo"
           onClick={handleLogoClick}
         />
-      </NavLink>
+      </NavLink> */}
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
