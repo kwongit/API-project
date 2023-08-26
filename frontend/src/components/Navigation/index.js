@@ -18,8 +18,8 @@ function Navigation({ isLoaded }) {
         <NavLink exact to="/">
           <img
             className="logo"
-            src="../icon/chillbnb.png"
-            alt="chillbnb"
+            src="../icon/logo.png"
+            alt="logo"
             onClick={handleLogoClick}
           />
         </NavLink>

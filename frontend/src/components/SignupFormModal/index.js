@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
@@ -14,6 +15,7 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,9 +44,21 @@ function SignupFormModal() {
     });
   };
 
+  const handleLogoClick = () => {
+    history.push("/");
+  };
+
   return (
     <>
-      <img className="logo" src="../icon/chillbnb.png" alt="chillbnb" />
+      {/* <img className="logo" src="../icon/logo.png" alt="logo" /> */}
+      <NavLink exact to="/">
+        <img
+          className="logo"
+          src="../icon/logo.png"
+          alt="logo"
+          onClick={handleLogoClick}
+        />
+      </NavLink>
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <label>
