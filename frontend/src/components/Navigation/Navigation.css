@@ -87,4 +87,13 @@
   margin-top: 2px;
   padding: 10px 15px;
   border-radius: 20px;
+  cursor: pointer;
+}
+
+.login-modal {
+  cursor: pointer;
+}
+
+.signup-modal {
+  cursor: pointer;
 }
