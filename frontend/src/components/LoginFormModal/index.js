@@ -48,39 +48,50 @@ function LoginFormModal() {
 
   return (
     <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username or Email
-          <input
-            type="text"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.credential && <p>{errors.credential}</p>}
-
-        <button
-          type="submit"
-          className="login-button"
-          disabled={Object.keys(errors).length > 0}
-        >
-          Log In
-        </button>
-        <button className="demo-user-button" onClick={handleDemoLogin}>
-          Log in as Demo User
-        </button>
-      </form>
+      <div className="login-form-container">
+        <h1>Log In</h1>
+        <div className="error-login">
+          {errors.credential && <p>{errors.credential}</p>}
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="username-email-password">
+            <div className="username-email">
+              <label>
+                <input
+                  type="text"
+                  value={credential}
+                  placeholder="Username or Email"
+                  onChange={(e) => setCredential(e.target.value)}
+                  required
+                />
+              </label>
+            </div>
+            <div className="password">
+              <label>
+                <input
+                  type="password"
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </label>
+            </div>
+          </div>
+          <div className="login-demo-button">
+            <button
+              className="login-button"
+              disabled={Object.keys(errors).length > 0}
+              type="submit"
+            >
+              Log In
+            </button>
+            <button className="demo-user-button" onClick={handleDemoLogin}>
+              Log in as Demo User
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   );
 }

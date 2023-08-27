@@ -10,7 +10,6 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
-
   const history = useHistory();
 
   const openMenu = () => {
@@ -46,19 +45,27 @@ function ProfileButton({ user }) {
   return (
     <>
       <button className="user-button-container" onClick={openMenu}>
-        <span className="material-symbols-outlined">menu</span>
+        <i className="fa-solid fa-bars"></i>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>
-              {user.firstName} {user.lastName}
-            </li>
+            <li> Hello, {user.firstName}</li>
             <li>{user.email}</li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <NavLink
+                exact
+                to="/spots/current"
+                className="manage-spots-current"
+              >
+                Manage Spots
+              </NavLink>
+            </li>
+            <li className="logout-button-container">
+              <button className="logout-button" onClick={logout}>
+                Log Out
+              </button>
             </li>
           </>
         ) : (

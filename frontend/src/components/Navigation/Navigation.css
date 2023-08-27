@@ -1,3 +1,6 @@
+#root {
+  /* border: 1px solid red; */
+}
 
 .hidden {
   display: none
@@ -12,33 +15,64 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #CCCCCC;
   padding-right: 20px;
   padding-left: 20px;
-  border-bottom: 1px solid #CCCCCC;
   height: 70px;
   margin: 0px;
 }
 
 .user-button-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 7px;
-  border-radius: 20px;
+  align-items: center;
   background-color: white;
-  cursor: pointer;
-  border: 1px solid #CCCCCC;
+  border: 1px solid black;
+  border-radius: 20px;
+  width: 80px;
   padding: 5px;
-  width: 75px
+  gap: 5px;
+  cursor: pointer;
 }
 
-.material-symbols-outlined {
-  color: #7a7a7a;
-  transform: scale(.75);
-  font-weight: bold;
+.fa-bars {
+  transform: scale(1.5);
+  margin-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.fa-user-circle {
+  transform: scale(1.5);
+}
+
+.profile-dropdown {
+  border: 1px solid black;
+  margin-top: 5px;
+  padding: 10px;
 }
 
 .profile-dropdown > li {
-  margin-top: 10px;
-  padding-bottom:10px;
+  display: flex;
+  justify-content: center;
+  padding: 2px 0px;
+}
+
+.manage-spots-current {
+  text-align: center;
+  width: 100%;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px 0px;
+  text-decoration: none;
+  color: black;
+}
+
+.logout-button {
+  color: white;
+  background-color: gray;
+  border: 1px solid black;
+  margin-top: 2px;
+  padding: 10px 15px;
+  border-radius: 20px;
 }
