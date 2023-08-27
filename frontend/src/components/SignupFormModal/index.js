@@ -57,7 +57,6 @@ function SignupFormModal() {
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) {
-            console.log(data);
             setErrors(data.errors);
           }
         });
@@ -72,18 +71,26 @@ function SignupFormModal() {
     <div className="signup-container">
       <h1>Sign Up</h1>
 
-      {errors.firstName && (
-        <p className="on-submit-errors">{errors.firstName}</p>
-      )}
-      {errors.lastName && <p className="on-submit-errors">{errors.lastName}</p>}
-      {errors.email && <p className="on-submit-errors">{errors.email}</p>}
-      {errors.username && <p className="on-submit-errors">{errors.username}</p>}
-      {errors.password && <p className="on-submit-errors">{errors.password}</p>}
-      {errors.confirmPassword && (
-        <p className="on-submit-errors">{errors.confirmPassword}</p>
-      )}
+      <div className="error-signup">
+        {errors.firstName && (
+          <p className="on-submit-errors">{errors.firstName}</p>
+        )}
+        {errors.lastName && (
+          <p className="on-submit-errors">{errors.lastName}</p>
+        )}
+        {errors.email && <p className="on-submit-errors">{errors.email}</p>}
+        {errors.username && (
+          <p className="on-submit-errors">{errors.username}</p>
+        )}
+        {errors.password && (
+          <p className="on-submit-errors">{errors.password}</p>
+        )}
+        {errors.confirmPassword && (
+          <p className="on-submit-errors">{errors.confirmPassword}</p>
+        )}
+      </div>
 
-      <form onSubmit={handleSubmit}>
+      <form className="signup-form" onSubmit={handleSubmit}>
         <label>
           <input
             type="text"

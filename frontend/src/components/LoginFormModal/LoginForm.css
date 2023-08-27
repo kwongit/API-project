@@ -43,7 +43,13 @@ input {
   align-items: center;
   padding-top: 5px;
   padding-bottom: 5px;
-  box-shadow: 2px 2px darkgray;
+  cursor: not-allowed;
+}
+
+.login-button:not([disabled]) {
+  background-color: rgb(255, 55, 0);
+  color: white;
+  cursor: pointer;
 }
 
 .demo-user-button {
@@ -58,9 +64,4 @@ input {
 .error-login {
   color: red;
   margin-bottom: 20px;
-}
-
-.login-button {
-  /* color: red; */
-  cursor: pointer;
 }

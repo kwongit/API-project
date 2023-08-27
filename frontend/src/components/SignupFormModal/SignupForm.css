@@ -1,7 +1,36 @@
-/* h1 {
-  border: 1px solid blue;
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  height: 400px;
 }
 
-form {
-  border: 1px solid blue;
-} */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 350px;
+  margin-top: 10px;
+}
+
+.submit-button {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: not-allowed;
+}
+
+.submit-button:not([disabled]) {
+  background-color: rgb(255, 55, 0);
+  color: white;
+  cursor: pointer;
+}
+
+.error-signup {
+  color: red
+}
+
+.on-submit-errors {
+  margin: 10px 0px;
+  width: 350px;
+}
