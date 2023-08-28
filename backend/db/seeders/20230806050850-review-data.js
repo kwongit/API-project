@@ -12,69 +12,65 @@ if (process.env.NODE_ENV === "production") {
 const reviews = [
   {
     spotId: 1,
-    userId: 1,
-    review: "spot1 user1",
-    stars: 1,
+    userId: 2,
+    review: "Really enjoyed the place, especially being watched by deer",
+    stars: 2,
   },
   {
     spotId: 1,
+    userId: 3,
+    review: "Nice place!",
+    stars: 3,
+  },
+  {
+    spotId: 2,
     userId: 2,
-    review: "spot1 user2",
+    review: "Beautiful, cozy home. The game room was extremely fun!",
     stars: 2,
   },
   {
     spotId: 2,
     userId: 3,
-    review: "spot2 user3",
+    review:
+      "Loved our stay here. Great location about 45 min away from Yosemite.",
     stars: 3,
-  },
-  {
-    spotId: 2,
-    userId: 1,
-    review: "spot2 user1",
-    stars: 4,
   },
   {
     spotId: 3,
     userId: 2,
-    review: "spot3 user2",
-    stars: 5,
+    review: "Great stay!",
+    stars: 2,
+  },
+  {
+    spotId: 3,
+    userId: 3,
+    review: "Very quiet and private house",
+    stars: 3,
   },
   {
     spotId: 4,
     userId: 3,
-    review: "spot4 user3",
+    review: "Great location.",
+    stars: 3,
+  },
+  {
+    spotId: 4,
+    userId: 1,
+    review: "Nice neighborhood, close enough to Yosemite valley.",
     stars: 1,
   },
   {
     spotId: 5,
     userId: 1,
-    review: "spot5 user1",
-    stars: 2,
-  },
-  {
-    spotId: 6,
-    userId: 2,
-    review: "spot6 user2",
-    stars: 3,
-  },
-  {
-    spotId: 7,
-    userId: 3,
-    review: "spot7 user3",
-    stars: 4,
-  },
-  {
-    spotId: 8,
-    userId: 1,
-    review: "spot8 user1",
-    stars: 5,
-  },
-  {
-    spotId: 9,
-    userId: 2,
-    review: "spot9 user2",
+    review: "This place was perfect for our group of six.",
     stars: 1,
+  },
+  {
+    spotId: 5,
+    userId: 3,
+    review:
+      "We usually stay in Yosemite West or Wawona when coming to the park.",
+    stars: 3,
   },
 ];
 
