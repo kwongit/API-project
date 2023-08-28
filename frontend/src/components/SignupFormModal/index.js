@@ -68,92 +68,91 @@ function SignupFormModal() {
   };
 
   return (
-    <div className="signup-container">
-      <h1>Sign Up</h1>
-
-      <div className="error-signup">
-        {errors.firstName && (
-          <p className="on-submit-errors">{errors.firstName}</p>
-        )}
-        {errors.lastName && (
-          <p className="on-submit-errors">{errors.lastName}</p>
-        )}
-        {errors.email && <p className="on-submit-errors">{errors.email}</p>}
-        {errors.username && (
-          <p className="on-submit-errors">{errors.username}</p>
-        )}
-        {errors.password && (
-          <p className="on-submit-errors">{errors.password}</p>
-        )}
-        {errors.confirmPassword && (
-          <p className="on-submit-errors">{errors.confirmPassword}</p>
-        )}
+    <div className="signup-modal-content">
+      <div className="signup-container">
+        <h1>Sign Up</h1>
+        <div className="error-signup">
+          {errors.firstName && (
+            <p className="on-submit-errors">{errors.firstName}</p>
+          )}
+          {errors.lastName && (
+            <p className="on-submit-errors">{errors.lastName}</p>
+          )}
+          {errors.email && <p className="on-submit-errors">{errors.email}</p>}
+          {errors.username && (
+            <p className="on-submit-errors">{errors.username}</p>
+          )}
+          {errors.password && (
+            <p className="on-submit-errors">{errors.password}</p>
+          )}
+          {errors.confirmPassword && (
+            <p className="on-submit-errors">{errors.confirmPassword}</p>
+          )}
+        </div>
+        <form className="signup-form" onSubmit={handleSubmit}>
+          <label>
+            <input
+              type="text"
+              value={firstName}
+              placeholder="First Name"
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            <input
+              type="text"
+              value={lastName}
+              placeholder="Last Name"
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            <input
+              type="text"
+              value={email}
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            <input
+              type="text"
+              value={username}
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            <input
+              type="password"
+              value={password}
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            <input
+              type="password"
+              value={confirmPassword}
+              placeholder="Confirm Password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </label>
+          <button
+            className="submit-button"
+            type="submit"
+            disabled={Object.keys(errors).length > 0}
+          >
+            Sign Up
+          </button>
+        </form>
       </div>
-
-      <form className="signup-form" onSubmit={handleSubmit}>
-        <label>
-          <input
-            type="text"
-            value={firstName}
-            placeholder="First Name"
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          <input
-            type="text"
-            value={lastName}
-            placeholder="Last Name"
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          <input
-            type="text"
-            value={email}
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          <input
-            type="text"
-            value={username}
-            placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          <input
-            type="password"
-            value={password}
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          <input
-            type="password"
-            value={confirmPassword}
-            placeholder="Confirm Password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </label>
-
-        <button
-          className="submit-button"
-          type="submit"
-          disabled={Object.keys(errors).length > 0}
-        >
-          Sign Up
-        </button>
-      </form>
     </div>
   );
 }

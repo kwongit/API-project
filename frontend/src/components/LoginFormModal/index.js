@@ -47,7 +47,7 @@ function LoginFormModal() {
   };
 
   return (
-    <>
+    <div className="login-modal-content">
       <div className="login-form-container">
         <h1>Log In</h1>
         <div className="error-login">
@@ -92,7 +92,7 @@ function LoginFormModal() {
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 

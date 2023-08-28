@@ -1,3 +1,19 @@
+h1 {
+  font-size: 24px;
+}
+
+.signup-modal-content {
+  border-radius: 20px;
+  position: fixed;
+  top: 100px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  background-color: #ffffff;
+}
+
 .signup-container {
   display: flex;
   flex-direction: column;
@@ -14,16 +30,26 @@
   margin-top: 10px;
 }
 
+.signup-form > label > input {
+  width: 343px;
+}
+
 .submit-button {
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   cursor: not-allowed;
+  width: 100%;
+  background-color: #FFFFFF;
+  color: #CCCCCC;
+  border: 1px solid #CCCCCC;
 }
 
 .submit-button:not([disabled]) {
-  background-color: rgb(255, 55, 0);
-  color: white;
   cursor: pointer;
+  background-color: #FF5A5F;
+  color: white;
+  border: 1px solid black;
+  box-shadow: 2px 2px black;
 }
 
 .error-signup {
