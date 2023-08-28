@@ -14,18 +14,16 @@ const SingleSpotDetails = ({ spot }) => {
   };
 
   return (
-    <div className="all-spots-container">
-      <div key={id} onClick={handleClick}>
-        <div id="spot-detail">
-          <div className="name-container">
-            <span className="spot-name-tooltip">{name}</span>
-            <img
-              className="preview-image"
-              src={displayImage}
-              alt={name}
-              title={name}
-            ></img>
-          </div>
+    <div className="all-spots-container" key={id} onClick={handleClick}>
+      <div id="spot-detail">
+        <div className="name-container">
+          <span className="spot-name-tooltip">{name}</span>
+          <img
+            className="preview-image"
+            src={displayImage}
+            alt={name}
+            title={name}
+          ></img>
         </div>
       </div>
       <div className="city-state">
@@ -33,13 +31,11 @@ const SingleSpotDetails = ({ spot }) => {
       </div>
       <div className="star-rating">
         <span>Star Rating: </span>
-        <span>
-          {avgRating ? `${Number(avgRating).toFixed(1)}` : "No Reviews yet..."}
-        </span>
+        <span>{avgRating ? `${Number(avgRating).toFixed(1)}` : "New"}</span>
       </div>
       <div className="price-night">
         <span>${Number(price).toFixed(2)}</span>
-        <span> / night</span>
+        <span> night</span>
       </div>
     </div>
   );
