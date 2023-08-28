@@ -1,0 +1,14 @@
+.spot-details-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  /* grid-auto-rows: minmax(100px, auto); */
+  margin-top: 25px;
+  margin-left: 45px;
+  margin-right: 45px;
+  margin-bottom: 25px
+}
+
+.preview-image {
+  width: 250px;
+}
