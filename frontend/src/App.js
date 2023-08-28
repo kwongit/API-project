@@ -16,6 +16,10 @@ function App() {
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch></Switch>}
+      <h2>
+        TODO: On the landing page of the site, I should see a tile list of all
+        the spots.
+      </h2>
     </>
   );
 }

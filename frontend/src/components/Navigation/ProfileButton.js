@@ -44,10 +44,21 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button className="user-button-container" onClick={openMenu}>
-        <i className="fa-solid fa-bars"></i>
-        <i className="fas fa-user-circle" />
-      </button>
+      <div className="user-nav">
+        {user ? (
+          <span>
+            <NavLink className="create-new-spot" to="/spots/new">
+              Create a New Spot
+            </NavLink>
+          </span>
+        ) : (
+          ""
+        )}
+        <button className="user-button-container" onClick={openMenu}>
+          <i className="fa-solid fa-bars"></i>
+          <i className="fas fa-user-circle" />
+        </button>
+      </div>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
@@ -62,6 +73,15 @@ function ProfileButton({ user }) {
                 Manage Spots
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                exact
+                to="/reviews/current"
+                className="manage-reviews-current"
+              >
+                Manage Reviews
+              </NavLink>
+            </li>
             <li className="logout-button-container">
               <button className="logout-button" onClick={logout}>
                 Log Out
@@ -70,18 +90,18 @@ function ProfileButton({ user }) {
           </>
         ) : (
           <>
-            <div className="login-modal">
-              <OpenModalMenuItem
-                itemText="Log In"
-                onItemClick={closeMenu}
-                modalComponent={<LoginFormModal />}
-              />
-            </div>
             <div className="signup-modal">
               <OpenModalMenuItem
                 itemText="Sign Up"
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
+              />
+            </div>
+            <div className="login-modal">
+              <OpenModalMenuItem
+                itemText="Log In"
+                onItemClick={closeMenu}
+                modalComponent={<LoginFormModal />}
               />
             </div>
           </>

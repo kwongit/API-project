@@ -87,7 +87,7 @@ function LoginFormModal() {
               Log In
             </button>
             <button className="demo-user-button" onClick={handleDemoLogin}>
-              Log in as Demo User
+              Demo User
             </button>
           </div>
         </form>

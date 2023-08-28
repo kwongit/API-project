@@ -30,6 +30,18 @@
   gap: 15px
 } */
 
+.user-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.create-new-spot {
+  text-decoration: none;
+  color: black
+}
+
 .user-button-container {
   display: flex;
   justify-content: center;
@@ -74,7 +86,16 @@
   text-align: center;
   width: 100%;
   border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
+  padding: 2px 0px;
+  text-decoration: none;
+  color: black;
+}
+
+.manage-reviews-current {
+  text-align: center;
+  width: 100%;
+  /* border-bottom: 1px solid black; */
   padding: 2px 0px;
   text-decoration: none;
   color: black;
