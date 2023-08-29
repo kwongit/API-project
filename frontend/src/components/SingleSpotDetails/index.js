@@ -31,7 +31,7 @@ const SingleSpotDetails = ({ spot }) => {
           {city}, {state}
         </div>
         <div className="star-rating">
-          <span>Stars: </span>
+          <i className="fa-solid fa-star"></i>
           <span className="rating">
             {avgRating ? `${Number(avgRating).toFixed(1)}` : "New"}
           </span>

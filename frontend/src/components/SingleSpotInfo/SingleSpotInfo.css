@@ -1,0 +1,78 @@
+.view-spot-details {
+  margin-left: 45px;
+  margin-right: 45px;
+}
+
+.spot-images {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-gap: 0px 10px;
+}
+
+.main-image {
+  width: 100%;
+  height: 390px;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.additional-images-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  object-fit: cover;
+  grid-gap: 5px 10px
+}
+
+.additional-images {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+}
+
+.host-description-reserve-container {
+  border-bottom: 2px solid #CCCCCC;
+  display: flex;
+  gap: 20px;
+}
+
+.host-description {
+  width: 70%;
+  margin-left: 3px;
+}
+
+.reserve-container {
+  margin-bottom: 25px;
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 20px;
+  width: 30%;
+  border: 1px solid black;
+}
+
+.price-stars-reviews-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fa-star {
+  margin-right: 5px;
+}
+
+.reserve-button {
+  display: flex;
+  justify-content: center;
+}
+
+.reserve-button > button {
+  cursor: pointer;
+  background-color: #FF5A5F;
+  color: white;
+  border: 1px solid black;
+  box-shadow: 2px 2px black;
+  margin-bottom: 15px;
+  width: 95%;
+  height: 30px;
+}

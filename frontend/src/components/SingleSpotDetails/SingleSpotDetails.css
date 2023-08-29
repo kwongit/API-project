@@ -24,6 +24,7 @@
   width: 100%;
   height: 200px;
   border-radius: 5%;
+  object-fit: cover;
 }
 
 .all-spots-container {
