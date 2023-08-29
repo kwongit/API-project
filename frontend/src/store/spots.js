@@ -80,6 +80,19 @@ export const thunkSpotImage = (spot, spotImages, user) => async (dispatch) => {
   }
 };
 
+export const thunkGetUserSpots = () => async (dispatch) => {
+  const res = await csrfFetch("/api/spots/current");
+
+  if (res.ok) {
+    const spots = await res.json();
+    dispatch(getSpots(spots));
+    return res;
+  } else {
+    const errors = await res.json();
+    return errors;
+  }
+};
+
 // REDUCERS
 const initialState = { allSpots: {}, singleSpot: {} };
 

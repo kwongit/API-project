@@ -2,7 +2,6 @@ import { useHistory } from "react-router";
 import "./SingleSpotDetails.css";
 
 const SingleSpotDetails = ({ spot }) => {
-  // destructure attributes from spot
   const { id, name, previewImage, city, state, avgRating, price } = spot;
 
   const displayImage = previewImage ? previewImage : null;

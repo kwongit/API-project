@@ -65,7 +65,7 @@ export const SingleSpotInfo = () => {
             <span>
               <i className="fa-solid fa-star"></i>
               {Number(avgStarRating).toFixed(1)} · {numReviews}{" "}
-              {numReviews > 1 ? "reviews" : "review"}
+              {numReviews > 1 ? "Reviews" : "Review"}
             </span>
           </div>
           <div className="reserve-button">

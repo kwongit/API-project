@@ -1,0 +1,14 @@
+.manage-container{
+  margin-left: 45px;
+  margin-right: 45px;
+}
+
+.manage-container > button, .buttons-container > button {
+  cursor: pointer;
+  background-color: #FF5A5F;
+  color: white;
+  border: 1px solid black;
+  box-shadow: 2px 2px black;
+  padding: 5px 10px;
+  margin-right: 10px;
+}
