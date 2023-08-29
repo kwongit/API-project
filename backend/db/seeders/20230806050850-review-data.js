@@ -13,20 +13,20 @@ const reviews = [
   {
     spotId: 1,
     userId: 2,
-    review: "Really enjoyed the place, especially being watched by deer",
-    stars: 2,
+    review: "Really enjoyed the place, especially being watched by deer.",
+    stars: 5,
   },
   {
     spotId: 1,
     userId: 3,
-    review: "Nice place!",
-    stars: 3,
+    review: "Nice place! Will book this spot again!",
+    stars: 4,
   },
   {
     spotId: 2,
     userId: 2,
     review: "Beautiful, cozy home. The game room was extremely fun!",
-    stars: 2,
+    stars: 4,
   },
   {
     spotId: 2,
@@ -38,39 +38,39 @@ const reviews = [
   {
     spotId: 3,
     userId: 2,
-    review: "Great stay!",
-    stars: 2,
+    review: "Great stay! Highly recommend to anyone checking out the area!",
+    stars: 5,
   },
   {
     spotId: 3,
     userId: 3,
-    review: "Very quiet and private house",
+    review: "Very quiet and private house. Great space and views.",
     stars: 3,
   },
   {
     spotId: 4,
     userId: 3,
-    review: "Great location.",
+    review: "Great location. Great parking. Very clean. Great host!",
     stars: 3,
   },
   {
     spotId: 4,
     userId: 1,
     review: "Nice neighborhood, close enough to Yosemite valley.",
-    stars: 1,
+    stars: 4,
   },
   {
     spotId: 5,
     userId: 1,
     review: "This place was perfect for our group of six.",
-    stars: 1,
+    stars: 4,
   },
   {
     spotId: 5,
     userId: 3,
     review:
       "We usually stay in Yosemite West or Wawona when coming to the park.",
-    stars: 3,
+    stars: 4,
   },
 ];
 

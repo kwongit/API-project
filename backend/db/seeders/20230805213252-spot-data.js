@@ -32,7 +32,7 @@ const spots = [
     lng: -132.2490953,
     name: "Yosemite escape, inside the park w/ EV charger!",
     description:
-      "Renovated Yosemite Park A-frame house with forest view, decks, game room, BBQ, and Ev charger is 240 volts level 2",
+      "Renovated Yosemite Park A-frame house with forest view, decks, game room, BBQ, and Ev charger is 240 volts level 2. Have fun with the whole family at this stylish place. This vacation rental comes with a guaranteed reservation to Yosemite National Park. Find a beautiful woodland setting among the treetops at this secluded A-frame cabin in Yosemite National Park. This retreat was recently renovated, including a fully redone living room, kitchen, and modern bathrooms.",
     price: 2031,
   },
   {
