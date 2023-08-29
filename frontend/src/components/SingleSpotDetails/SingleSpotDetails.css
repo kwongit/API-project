@@ -21,7 +21,9 @@
 }
 
 .preview-image {
-  width: 250px;
+  width: 100%;
+  height: 200px;
+  border-radius: 5%;
 }
 
 .all-spots-container {
@@ -30,4 +32,24 @@
 
 .all-spots-container:hover .spot-name-tooltip{
   visibility: visible;
+}
+
+.location-rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.rating {
+  font-weight: bold;
+}
+
+.price-night {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.spot-price {
+  font-weight: bold;
 }

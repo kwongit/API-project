@@ -26,15 +26,19 @@ const SingleSpotDetails = ({ spot }) => {
           ></img>
         </div>
       </div>
-      <div className="city-state">
-        {city}, {state}
-      </div>
-      <div className="star-rating">
-        <span>Star Rating: </span>
-        <span>{avgRating ? `${Number(avgRating).toFixed(1)}` : "New"}</span>
+      <div className="location-rating">
+        <div className="city-state">
+          {city}, {state}
+        </div>
+        <div className="star-rating">
+          <span>Stars: </span>
+          <span className="rating">
+            {avgRating ? `${Number(avgRating).toFixed(1)}` : "New"}
+          </span>
+        </div>
       </div>
       <div className="price-night">
-        <span>${Number(price).toFixed(2)}</span>
+        <span className="spot-price">${Number(price).toFixed(2)}</span>
         <span> night</span>
       </div>
     </div>

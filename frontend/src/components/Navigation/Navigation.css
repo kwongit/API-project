@@ -74,6 +74,7 @@
   position: absolute;
   right: 30px;
   width: 150px;
+  background-color: white;
 }
 
 .profile-dropdown > li {
