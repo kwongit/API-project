@@ -18,6 +18,7 @@ export const CreateSpot = ({ user }) => {
   const [imgTwo, setImgTwo] = useState("");
   const [imgThree, setImgThree] = useState("");
   const [imgFour, setImgFour] = useState("");
+
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -27,12 +28,11 @@ export const CreateSpot = ({ user }) => {
   useEffect(() => {
     const errors = {};
 
-    // if (!country.length) errors.country = "Country is required";
     if (!country) errors.country = "Country is required";
     if (!address) errors.address = "Address is required";
     if (!city) errors.city = "City is required";
     if (!state) errors.state = "State is required";
-    if (!description)
+    if (!description || description.length < 30)
       errors.description = "Description needs 30 or more characters";
     if (!name) errors.name = "Name is required";
     if (!price || price < 1) errors.price = "Price is required";
@@ -221,7 +221,7 @@ export const CreateSpot = ({ user }) => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Name your spot"
+            placeholder="Name of your spot"
           />
           {errors.name && submitted && (
             <p className="on-submit-errors">{errors.name}</p>
@@ -299,7 +299,26 @@ export const CreateSpot = ({ user }) => {
         </div>
 
         <div className="button-container">
-          <button className="create-spot-button" type="submit">
+          <button
+            className="create-spot-button"
+            type="submit"
+            disabled={
+              !(
+                address ||
+                city ||
+                state ||
+                country ||
+                name ||
+                description ||
+                price ||
+                previewImg ||
+                imgOne ||
+                imgTwo ||
+                imgThree ||
+                imgFour
+              )
+            }
+          >
             Create Spot
           </button>
         </div>
