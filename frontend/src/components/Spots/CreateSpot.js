@@ -153,21 +153,23 @@ export const CreateSpot = ({ user }) => {
             {errors.country && submitted && (
               <p className="on-submit-errors">{errors.country}</p>
             )}
-            <label>Street Address</label>
-            <input
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Address"
-            />
-            {errors.address && submitted && (
-              <p className="on-submit-errors">{errors.address}</p>
-            )}
+            <div className="address-container">
+              <label>Street Address</label>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Address"
+              />
+              {errors.address && submitted && (
+                <p className="on-submit-errors">{errors.address}</p>
+              )}
+            </div>
           </div>
 
           <div className="city-and-state-container">
-            <div className="city-and-state">
-              <label className="city-label">City</label>
+            <div className="city-container">
+              <label>City</label>
               <input
                 type="text"
                 value={city}
@@ -178,8 +180,8 @@ export const CreateSpot = ({ user }) => {
                 <p className="on-submit-errors">{errors.city}</p>
               )}
             </div>
-            <div className="state-label">
-              <label className="state-label">State</label>
+            <div className="state-container">
+              <label>State</label>
               <input
                 type="text"
                 value={state}
@@ -232,7 +234,7 @@ export const CreateSpot = ({ user }) => {
             Competitive pricing can help your listing stand out and rank higher
             in search results.
           </p>
-          $
+          <span className="dollar-sign">$</span>
           <input
             type="number"
             value={price}
@@ -247,51 +249,53 @@ export const CreateSpot = ({ user }) => {
         <div className="images-container">
           <h3>Liven up your spot with photos</h3>
           <p>Submit a link to at least one photo to publish your spot.</p>
-          <input
-            type="url"
-            value={previewImg}
-            onChange={(e) => setPreviewImg(e.target.value)}
-            placeholder="Preview Image URL"
-          />
-          {errors.previewImg && submitted && (
-            <p className="on-submit-errors">{errors.previewImg}</p>
-          )}
-          <input
-            type="url"
-            value={imgOne}
-            onChange={(e) => setImgOne(e.target.value)}
-            placeholder="Image URL"
-          />
-          {errors.imgOne && submitted && (
-            <p className="on-submit-errors">{errors.imgOne}</p>
-          )}
-          <input
-            type="url"
-            value={imgTwo}
-            onChange={(e) => setImgTwo(e.target.value)}
-            placeholder="Image URL"
-          />
-          {errors.imgTwo && submitted && (
-            <p className="on-submit-errors">{errors.imgTwo}</p>
-          )}
-          <input
-            type="url"
-            value={imgThree}
-            onChange={(e) => setImgThree(e.target.value)}
-            placeholder="Image URL"
-          />
-          {errors.imgThree && submitted && (
-            <p className="on-submit-errors">{errors.imgThree}</p>
-          )}
-          <input
-            type="url"
-            value={imgFour}
-            onChange={(e) => setImgFour(e.target.value)}
-            placeholder="Image URL"
-          />
-          {errors.imgFour && submitted && (
-            <p className="on-submit-errors">{errors.imgFour}</p>
-          )}
+          <div className="image-url-container">
+            <input
+              type="url"
+              value={previewImg}
+              onChange={(e) => setPreviewImg(e.target.value)}
+              placeholder="Preview Image URL"
+            />
+            {errors.previewImg && submitted && (
+              <p className="on-submit-errors">{errors.previewImg}</p>
+            )}
+            <input
+              type="url"
+              value={imgOne}
+              onChange={(e) => setImgOne(e.target.value)}
+              placeholder="Image URL"
+            />
+            {errors.imgOne && submitted && (
+              <p className="on-submit-errors">{errors.imgOne}</p>
+            )}
+            <input
+              type="url"
+              value={imgTwo}
+              onChange={(e) => setImgTwo(e.target.value)}
+              placeholder="Image URL"
+            />
+            {errors.imgTwo && submitted && (
+              <p className="on-submit-errors">{errors.imgTwo}</p>
+            )}
+            <input
+              type="url"
+              value={imgThree}
+              onChange={(e) => setImgThree(e.target.value)}
+              placeholder="Image URL"
+            />
+            {errors.imgThree && submitted && (
+              <p className="on-submit-errors">{errors.imgThree}</p>
+            )}
+            <input
+              type="url"
+              value={imgFour}
+              onChange={(e) => setImgFour(e.target.value)}
+              placeholder="Image URL"
+            />
+            {errors.imgFour && submitted && (
+              <p className="on-submit-errors">{errors.imgFour}</p>
+            )}
+          </div>
         </div>
 
         <div className="button-container">
