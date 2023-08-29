@@ -12,12 +12,12 @@ const spots = [
   {
     ownerId: 1,
     address: "123 Oakhurst",
-    city: "Oakhurst ",
+    city: "Oakhurst",
     state: "California",
     country: "United States",
     lat: 37.7573797,
     lng: -122.2490953,
-    name: "NEW! SkyView@Yosemite - TreeHouse + GameRoom & Spa",
+    name: "SkyView Yosemite - TreeHouse, GameRoom, Spa",
     description:
       "Welcome to SkyView@Yosemite: A Postmodern Treehouse perched among trees of the Sierra National Forest and 12 miles from the south entrance to Yosemite National Park. Let SkyView be the basecamp for your Yosemite adventure or stay in to experience the comforts of a modernist treehouse.",
     price: 1456,
@@ -56,7 +56,7 @@ const spots = [
     country: "United States",
     lat: 57.7573797,
     lng: -132.2490953,
-    name: "The Nest-2 K Beds-Game Room-Deck-5 min to Mariposa",
+    name: "The Nest-2 K Beds-Game Room-Deck",
     description:
       "Make some memories at this unique and family-friendly place. This private 2 Bedroom, 2 Bathroom house boast 2 King Beds, Fully stocked Kitchen, Large Deck and Gorgeous Yard with market lights, Game Room, Propane BBQ, and Washer and Dryer. Just 5 Minutes to the town of Mariposa and 45 Minutes to Yosemite National Park. High Speed internet with 50Mbps download and 25Mbps upload. Enjoy our game Room with Air Hockey Table,  Atari, Vintage Nintendo, Pacman machines and MORE!",
     price: 834,
@@ -69,7 +69,7 @@ const spots = [
     country: "United States",
     lat: 67.7573797,
     lng: -142.2490953,
-    name: "Echo's Hideout",
+    name: "Welcome to Echo's Hideout!",
     description:
       "Nestled in Echo Valley, this home is perched on top of large property with gate.  Carved out of natural setting with excellent views of the surrounding mountains.  Great location being very close to both Bass Lake and the town of Oakhurst and a short drive to Yosemite Southgate.  Recently updated home with a spacious layout, game room, fenced back yard, and super high speed Internet.",
     price: 1169,
