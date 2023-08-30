@@ -24,6 +24,10 @@ export const ManageSpots = () => {
     history.push("/spots/new");
   };
 
+  const handleUpdateClick = (spotId) => {
+    history.push(`/spots/${spotId}/edit`);
+  };
+
   return (
     <div>
       <div className="manage-container">
@@ -39,7 +43,12 @@ export const ManageSpots = () => {
           <div key={spot.id}>
             <SingleSpotDetails manage={true} spot={spot} />
             <div className="buttons-container">
-              <button className="update-button">Update</button>
+              <button
+                className="update-button"
+                // onClick={handleUpdateClick(spot.id)}
+              >
+                Update
+              </button>
               <button className="delete-button">Delete</button>
             </div>
           </div>

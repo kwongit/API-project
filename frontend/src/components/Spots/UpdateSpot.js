@@ -1,29 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { thunkCreateSpot } from "../../store/spots";
+import { thunkUpdateSpot } from "../../store/spots";
 
-export const CreateSpot = ({ user }) => {
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
-  // const [lat] = useState(37.7573797);
-  // const [lng] = useState(-122.2490953);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [previewImg, setPreviewImg] = useState("");
-  const [imgOne, setImgOne] = useState("");
-  const [imgTwo, setImgTwo] = useState("");
-  const [imgThree, setImgThree] = useState("");
-  const [imgFour, setImgFour] = useState("");
+export const UpdateSpot = ({ spot }) => {
+  const [address, setAddress] = useState(spot?.address);
+  const [city, setCity] = useState(spot?.city);
+  const [state, setState] = useState(spot?.state);
+  const [country, setCountry] = useState(spot?.country);
+  const [name, setName] = useState(spot?.name);
+  const [description, setDescription] = useState(spot?.description);
+  const [price, setPrice] = useState(spot?.price);
 
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  if (!spot) {
+    history.push("/");
+  }
 
   useEffect(() => {
     const errors = {};
@@ -36,104 +33,40 @@ export const CreateSpot = ({ user }) => {
       errors.description = "Description needs 30 or more characters";
     if (!name) errors.name = "Name is required";
     if (!price || price < 1) errors.price = "Price is required";
-    if (!previewImg) errors.previewImg = "Preview image is required";
-    if (
-      previewImg &&
-      !previewImg.endsWith("jpg") &&
-      !previewImg.endsWith("jpeg") &&
-      !previewImg.endsWith("png")
-    )
-      errors.previewImg = "Image URL must end in .png, .jpg, or .jpeg";
-    if (
-      imgOne &&
-      !imgOne.endsWith("jpg") &&
-      !imgOne.endsWith("jpeg") &&
-      !imgOne.endsWith("png")
-    )
-      errors.imgOne = "Image URL must end in .png, .jpg, or .jpeg";
-    if (
-      imgTwo &&
-      !imgTwo.endsWith("jpg") &&
-      !imgTwo.endsWith("jpeg") &&
-      !imgTwo.endsWith("png")
-    )
-      errors.imgTwo = "Image URL must end in .png, .jpg, or .jpeg";
-    if (
-      imgThree &&
-      !imgThree.endsWith("jpg") &&
-      !imgThree.endsWith("jpeg") &&
-      !imgThree.endsWith("png")
-    )
-      errors.imgThree = "Image URL must end in .png, .jpg, or .jpeg";
-    if (
-      imgFour &&
-      !imgFour.endsWith("jpg") &&
-      !imgFour.endsWith("jpeg") &&
-      !imgFour.endsWith("png")
-    )
-      errors.imgFour = "Image URL must end in .png, .jpg, or .jpeg";
 
     setErrors(errors);
-  }, [
-    address,
-    city,
-    state,
-    country,
-    name,
-    description,
-    price,
-    previewImg,
-    imgOne,
-    imgTwo,
-    imgThree,
-    imgFour,
-  ]);
+  }, [address, city, state, country, name, description, price]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
 
-    const newSpot = {
+    const updatedSpot = {
       address,
       city,
       state,
       country,
-      // lat,
-      // lng,
       name,
       description,
       price,
     };
 
-    const imgUrl = [previewImg, imgOne, imgTwo, imgThree, imgFour];
-
-    const imgUrlList = [];
-
     if (!Object.values(errors).length) {
-      imgUrl.forEach((img, i) => {
-        const preview = { url: img, preview: i === 0 };
-        if (img) {
-          imgUrlList.push(preview);
-        }
-      });
+      const updateSpot = await dispatch(thunkUpdateSpot(updatedSpot, spot.id));
 
-      const addSpot = await dispatch(
-        thunkCreateSpot(newSpot, imgUrlList, user)
-      );
+      const combinedErrors = { ...errors, Errors: updateSpot.errors };
 
-      const combinedErrors = { ...errors, Errors: addSpot.errors };
-
-      if (addSpot.errors) {
+      if (updateSpot.errors) {
         setErrors(combinedErrors);
       } else {
-        history.push(`/spots/${addSpot.id}`);
+        history.push("/");
       }
     }
   };
 
   return (
     <div className="create-spot-form-container">
-      <h1>Create a New Spot</h1>
+      <h1>Update your Spot</h1>
       <form onSubmit={handleSubmit}>
         <div className="location-container">
           <h3>Where's your place located?</h3>
@@ -246,58 +179,6 @@ export const CreateSpot = ({ user }) => {
           )}
         </div>
 
-        <div className="images-container">
-          <h3>Liven up your spot with photos</h3>
-          <p>Submit a link to at least one photo to publish your spot.</p>
-          <div className="image-url-container">
-            <input
-              type="url"
-              value={previewImg}
-              onChange={(e) => setPreviewImg(e.target.value)}
-              placeholder="Preview Image URL"
-            />
-            {errors.previewImg && submitted && (
-              <p className="on-submit-errors">{errors.previewImg}</p>
-            )}
-            <input
-              type="url"
-              value={imgOne}
-              onChange={(e) => setImgOne(e.target.value)}
-              placeholder="Image URL"
-            />
-            {errors.imgOne && submitted && (
-              <p className="on-submit-errors">{errors.imgOne}</p>
-            )}
-            <input
-              type="url"
-              value={imgTwo}
-              onChange={(e) => setImgTwo(e.target.value)}
-              placeholder="Image URL"
-            />
-            {errors.imgTwo && submitted && (
-              <p className="on-submit-errors">{errors.imgTwo}</p>
-            )}
-            <input
-              type="url"
-              value={imgThree}
-              onChange={(e) => setImgThree(e.target.value)}
-              placeholder="Image URL"
-            />
-            {errors.imgThree && submitted && (
-              <p className="on-submit-errors">{errors.imgThree}</p>
-            )}
-            <input
-              type="url"
-              value={imgFour}
-              onChange={(e) => setImgFour(e.target.value)}
-              placeholder="Image URL"
-            />
-            {errors.imgFour && submitted && (
-              <p className="on-submit-errors">{errors.imgFour}</p>
-            )}
-          </div>
-        </div>
-
         <div className="button-container">
           <button
             className="create-spot-button"
@@ -310,16 +191,11 @@ export const CreateSpot = ({ user }) => {
                 country ||
                 name ||
                 description ||
-                price ||
-                previewImg ||
-                imgOne ||
-                imgTwo ||
-                imgThree ||
-                imgFour
+                price
               )
             }
           >
-            Create Spot
+            Update Spot
           </button>
         </div>
       </form>
