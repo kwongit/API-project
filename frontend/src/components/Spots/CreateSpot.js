@@ -8,8 +8,8 @@ export const CreateSpot = ({ user }) => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
-  // const [lat] = useState(37.7573797);
-  // const [lng] = useState(-122.2490953);
+  const [lat] = useState(37.7573797);
+  const [lng] = useState(-122.2490953);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -98,8 +98,8 @@ export const CreateSpot = ({ user }) => {
       city,
       state,
       country,
-      // lat,
-      // lng,
+      lat,
+      lng,
       name,
       description,
       price,

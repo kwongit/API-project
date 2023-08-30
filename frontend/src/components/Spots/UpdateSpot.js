@@ -8,6 +8,8 @@ export const UpdateSpot = ({ spot }) => {
   const [city, setCity] = useState(spot?.city);
   const [state, setState] = useState(spot?.state);
   const [country, setCountry] = useState(spot?.country);
+  const [lat] = useState(37.7573797);
+  const [lng] = useState(-122.2490953);
   const [name, setName] = useState(spot?.name);
   const [description, setDescription] = useState(spot?.description);
   const [price, setPrice] = useState(spot?.price);
@@ -46,6 +48,8 @@ export const UpdateSpot = ({ spot }) => {
       city,
       state,
       country,
+      lat,
+      lng,
       name,
       description,
       price,

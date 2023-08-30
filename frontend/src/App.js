@@ -25,13 +25,13 @@ function App() {
         <Route exact path="/">
           <Spots />
         </Route>
+        <Route exact path="/spots/new">
+          <CreateSpot />
+        </Route>
         <Route exact path="/spots/current">
           <ManageSpots />
         </Route>
-        <Route path="/spots/new">
-          <CreateSpot />
-        </Route>
-        <Route path="/spots/:spotId/edit">
+        <Route exact path="/spots/:spotId/edit">
           <GetSpotToUpdate />
         </Route>
         <Route exact path="/spots/:spotId">

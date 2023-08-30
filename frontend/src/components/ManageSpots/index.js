@@ -45,7 +45,7 @@ export const ManageSpots = () => {
             <div className="buttons-container">
               <button
                 className="update-button"
-                // onClick={handleUpdateClick(spot.id)}
+                onClick={() => handleUpdateClick(spot.id)}
               >
                 Update
               </button>
