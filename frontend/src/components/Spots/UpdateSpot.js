@@ -63,7 +63,7 @@ export const UpdateSpot = ({ spot }) => {
       if (updateSpot.errors) {
         setErrors(combinedErrors);
       } else {
-        history.push("/");
+        history.push(`/spots/${spot.id}`);
       }
     }
   };
