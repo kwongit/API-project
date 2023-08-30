@@ -7,8 +7,8 @@ import { Spots } from "./components/Spots";
 import { CreateSpot } from "./components/Spots/CreateSpot";
 import { ManageSpots } from "./components/ManageSpots";
 import { GetSpotToUpdate } from "./components/Spots/GetSpotToUpdate";
-import { SpotReviews } from "./components/SpotReviews";
-import { SingleSpotInfo } from "./components/SingleSpotInfo";
+// import { SpotReviews } from "./components/SpotReviews";
+import { SpotDetails } from "./components/SpotDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ function App() {
         </Route>
         <Route exact path="/spots/:spotId">
           {/* <SpotReviews /> */}
-          <SingleSpotInfo />
+          <SpotDetails />
         </Route>
       </Switch>
     </>

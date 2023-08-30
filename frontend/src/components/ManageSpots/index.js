@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { thunkGetUserSpots } from "../../store/spots";
-import SingleSpotDetails from "../SingleSpotDetails";
+import SpotTile from "../SpotTile";
 import { DeleteSpotModal } from "./DeleteSpotModal";
 import OpenModalButton from "../OpenModalButton";
 import "./ManageSpots.css";
@@ -43,7 +43,7 @@ export const ManageSpots = () => {
       <div className="spot-details-container">
         {spotsList.map((spot) => (
           <div key={spot.id}>
-            <SingleSpotDetails manage={true} spot={spot} />
+            <SpotTile manage={true} spot={spot} />
             <div className="buttons-container">
               <button
                 className="update-button"

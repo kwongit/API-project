@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { thunkGetSpotInfo } from "../../store/spots";
 import { thunkGetSpotReviews } from "../../store/reviews";
-import "./SingleSpotInfo.css";
+import "./SpotDetails.css";
 import { SpotReviews } from "../SpotReviews";
 
-export const SingleSpotInfo = () => {
+export const SpotDetails = () => {
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const singleSpot = useSelector((state) => state.spot.singleSpot);

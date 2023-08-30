@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { SingleSpotInfo } from "../SingleSpotInfo";
+// import { SpotDetails } from "../SpotDetails";
 import { thunkGetSpotReviews } from "../../store/reviews";
 import "./SpotReviews.css";
 
@@ -10,7 +10,7 @@ export const SpotReviews = () => {
   const { spotId } = useParams();
   const singleSpot = useSelector((state) => state.spot.singleSpot);
   const reviews = useSelector((state) => state.review.spot);
-  const user = useSelector((state) => state.session.user);
+  // const user = useSelector((state) => state.session.user);
 
   useEffect(() => {
     dispatch(thunkGetSpotReviews(spotId));
@@ -31,7 +31,7 @@ export const SpotReviews = () => {
 
   return (
     <div>
-      {/* <SingleSpotInfo /> */}
+      {/* <SpotDetails /> */}
       <div>
         {reviewsList.length ? (
           <span>

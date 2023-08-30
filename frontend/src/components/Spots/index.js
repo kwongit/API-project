@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkGetSpots } from "../../store/spots";
-import SingleSpotDetails from "../SingleSpotDetails";
+import SpotTile from "../SpotTile";
 import "./Spots.css";
 
 export const Spots = () => {
@@ -18,7 +18,7 @@ export const Spots = () => {
   return (
     <div className="spot-details-container">
       {spots.map((spot) => (
-        <SingleSpotDetails key={spot.id} spot={spot} />
+        <SpotTile key={spot.id} spot={spot} />
       ))}
     </div>
   );

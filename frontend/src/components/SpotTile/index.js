@@ -1,7 +1,7 @@
 import { useHistory } from "react-router";
-import "./SingleSpotDetails.css";
+import "./SpotTile.css";
 
-const SingleSpotDetails = ({ spot }) => {
+const SpotTile = ({ spot }) => {
   const { id, name, previewImage, city, state, avgRating, price } = spot;
 
   const displayImage = previewImage ? previewImage : null;
@@ -44,4 +44,4 @@ const SingleSpotDetails = ({ spot }) => {
   );
 };
 
-export default SingleSpotDetails;
+export default SpotTile;
