@@ -1,0 +1,69 @@
+.review-modal-content {
+  border-radius: 20px;
+  position: fixed;
+  top: 100px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  background-color: #ffffff;
+  border: 2px solid black;
+}
+
+.submit-review-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 20px;
+}
+
+.review-container > textarea {
+  width: 350px;
+  height: 150px;
+}
+
+.review-container > h2 {
+  margin-top: 0px;
+}
+
+.stars-container {
+  display: flex;
+  justify-content: center;
+  margin: 15px
+}
+
+.star-icons {
+  display: flex;
+  cursor: pointer;
+}
+
+.star-icons .filled {
+  color: #FF5A5F
+}
+
+.star-icons .empty {
+  color: lightgray;
+}
+
+.submit-review-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: not-allowed;
+  width: 100%;
+  background-color: #FFFFFF;
+  color: #CCCCCC;
+  border: 1px solid #CCCCCC;
+}
+
+.submit-review-button:not([disabled]) {
+  cursor: pointer;
+  background-color: #FF5A5F;
+  color: white;
+  border: 1px solid black;
+  box-shadow: 2px 2px black;
+}
