@@ -4,10 +4,11 @@ import { Switch, Route } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import { Spots } from "./components/Spots";
-import { SingleSpotInfo } from "./components/SingleSpotInfo";
 import { CreateSpot } from "./components/Spots/CreateSpot";
 import { ManageSpots } from "./components/ManageSpots";
 import { GetSpotToUpdate } from "./components/Spots/GetSpotToUpdate";
+import { SpotReviews } from "./components/SpotReviews";
+import { SingleSpotInfo } from "./components/SingleSpotInfo";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ function App() {
           <GetSpotToUpdate />
         </Route>
         <Route exact path="/spots/:spotId">
+          {/* <SpotReviews /> */}
           <SingleSpotInfo />
         </Route>
       </Switch>

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { thunkGetSpotInfo } from "../../store/spots";
 import { thunkGetSpotReviews } from "../../store/reviews";
 import "./SingleSpotInfo.css";
+import { SpotReviews } from "../SpotReviews";
 
 export const SingleSpotInfo = () => {
   const dispatch = useDispatch();
@@ -94,6 +95,8 @@ export const SingleSpotInfo = () => {
           </div>
         </div>
       </div>
+
+      <SpotReviews />
     </div>
   );
 };
