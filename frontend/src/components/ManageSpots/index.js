@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { thunkGetUserSpots } from "../../store/spots";
 import SingleSpotDetails from "../SingleSpotDetails";
+import { DeleteSpotModal } from "./DeleteSpotModal";
+import OpenModalButton from "../OpenModalButton";
 import "./ManageSpots.css";
 
 export const ManageSpots = () => {
@@ -49,7 +51,12 @@ export const ManageSpots = () => {
               >
                 Update
               </button>
-              <button className="delete-button">Delete</button>
+
+              <OpenModalButton
+                className="delete-button"
+                buttonText="Delete"
+                modalComponent={<DeleteSpotModal spotId={spot.id} />}
+              />
             </div>
           </div>
         ))}
