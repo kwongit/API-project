@@ -4,8 +4,9 @@ import { useParams } from "react-router-dom";
 // import { SpotDetails } from "../SpotDetails";
 import { thunkGetSpotReviews } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
+import { CreateReviewModal } from "./CreateReviewModal";
+import { DeleteReviewModal } from "./DeleteReviewModal";
 import "./SpotReviews.css";
-import { CreateReviewModalButton } from "./CreateReviewModal";
 
 export const SpotReviews = () => {
   const dispatch = useDispatch();
@@ -49,9 +50,7 @@ export const SpotReviews = () => {
             {user && !previousReview && spot.ownerId !== user?.id && (
               <OpenModalButton
                 buttonText="Post Your Review"
-                modalComponent={
-                  <CreateReviewModalButton spot={spot} user={user} />
-                }
+                modalComponent={<CreateReviewModal spot={spot} user={user} />}
               />
             )}
 
@@ -60,6 +59,15 @@ export const SpotReviews = () => {
                 <h3 className="user-first-name">{review.User.firstName}</h3>
                 <h4>{createDate(review.createdAt)}</h4>
                 <p>{review.review}</p>
+
+                {review.userId === user?.id && (
+                  <OpenModalButton
+                    buttonText="Delete"
+                    modalComponent={
+                      <DeleteReviewModal spot={spot} user={user} />
+                    }
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -73,9 +81,7 @@ export const SpotReviews = () => {
             {user && !previousReview && spot.ownerId !== user?.id && (
               <OpenModalButton
                 buttonText="Post Your Review"
-                modalComponent={
-                  <CreateReviewModalButton spot={spot} user={user} />
-                }
+                modalComponent={<CreateReviewModal spot={spot} user={user} />}
               />
             )}
 

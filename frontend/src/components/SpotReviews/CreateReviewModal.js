@@ -5,7 +5,7 @@ import { thunkGetSpotInfo } from "../../store/spots";
 import { thunkCreateReview } from "../../store/reviews";
 import "./SpotReviews.css";
 
-export const CreateReviewModalButton = ({ spot, user }) => {
+export const CreateReviewModal = ({ spot, user }) => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const [review, setReview] = useState("");
