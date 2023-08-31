@@ -3,6 +3,12 @@
   margin-right: 45px;
 }
 
+.view-spot-details > h3 {
+  font-size: 16px;
+  font-weight: 100;
+  margin-bottom: 15px;
+}
+
 .spot-images {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -22,7 +28,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
   object-fit: cover;
-  grid-gap: 5px 10px
+  grid-gap: 5px 10px;
 }
 
 .additional-images {
@@ -42,19 +48,40 @@
   margin-left: 3px;
 }
 
+.host-description > h3 {
+  font-size: 24px;
+  font-weight: 100;
+  margin-bottom: 15px;
+}
+
 .reserve-container {
   margin-bottom: 25px;
   margin-top: 15px;
-  padding: 15px;
-  border-radius: 20px;
+  padding: 5px 15px;
+  border-radius: 10px;
   width: 30%;
-  border: 1px solid black;
+  border: 2px solid black;
 }
 
 .price-stars-reviews-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 70px;
+}
+
+.price-night {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  gap: 5px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.price-night > h4 {
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .fa-star {

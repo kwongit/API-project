@@ -39,55 +39,69 @@ export const SpotReviews = () => {
       <div>
         {reviewsList.length ? (
           <div>
-            <div>
+            <div className="star-rating-review-container">
               <i className="fa-solid fa-star"></i>
               {Number(avgStarRating).toFixed(1)} · {numReviews}{" "}
               {numReviews > 1 ? "Reviews" : "Review"}
-            </div>
-
-            {user && !previousReview && spot.ownerId !== user?.id && (
-              <OpenModalButton
-                buttonText="Post Your Review"
-                modalComponent={<CreateReviewModal spot={spot} user={user} />}
-              />
-            )}
-
-            {reviewsList.map((review) => (
-              <div key={review.id}>
-                <h3 className="user-first-name">{review.User.firstName}</h3>
-                <h4>{createDate(review.createdAt)}</h4>
-                <p>{review.review}</p>
-
-                {review.userId === user?.id && (
+              <div className="post-review-button">
+                {user && !previousReview && spot.ownerId !== user?.id && (
                   <OpenModalButton
-                    buttonText="Delete"
+                    buttonText="Post Your Review"
                     modalComponent={
-                      <DeleteReviewModal
-                        reviewId={review.id}
-                        spotId={spot.id}
-                      />
+                      <CreateReviewModal spot={spot} user={user} />
                     }
                   />
                 )}
+              </div>
+            </div>
+
+            {reviewsList.map((review) => (
+              <div key={review.id}>
+                <div className="review-user-date-description-container">
+                  <h3 className="user-first-name">{review.User.firstName}</h3>
+                  <h4 className="review-date">
+                    {createDate(review.createdAt)}
+                  </h4>
+                  <p className="review-description">{review.review}</p>
+
+                  <div className="delete-review-button">
+                    {review.userId === user?.id && (
+                      <OpenModalButton
+                        buttonText="Delete"
+                        modalComponent={
+                          <DeleteReviewModal
+                            reviewId={review.id}
+                            spotId={spot.id}
+                          />
+                        }
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         ) : (
           <div>
-            <div>
+            <div className="new-star-container">
               <i className="fa-solid fa-star"></i>
               New
+              <div className="post-review-button">
+                {user && !previousReview && spot.ownerId !== user?.id && (
+                  <OpenModalButton
+                    buttonText="Post Your Review"
+                    modalComponent={
+                      <CreateReviewModal spot={spot} user={user} />
+                    }
+                  />
+                )}
+              </div>
             </div>
 
             {user && !previousReview && spot.ownerId !== user?.id && (
-              <OpenModalButton
-                buttonText="Post Your Review"
-                modalComponent={<CreateReviewModal spot={spot} user={user} />}
-              />
-            )}
-
-            {user && !previousReview && spot.ownerId !== user?.id && (
-              <h3>Be the first to post a review!</h3>
+              <h3 className="be-the-first-text">
+                Be the first to post a review!
+              </h3>
             )}
           </div>
         )}

@@ -1,3 +1,53 @@
+.star-rating-review-container, .new-star-container {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 24px;
+  font-weight: 100;
+}
+
+.be-the-first-text {
+  font-size: 16px;
+  font-weight: 100;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.review-user-date-description-container {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 30px;
+}
+
+.user-first-name {
+  font-size: 18px;
+  font-weight: 100;
+  margin-bottom: 0px;
+}
+
+.review-date {
+  font-size: 16px;
+  font-weight: 100;
+  color: gray;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.review-description {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.delete-review-button > button, .post-review-button > button {
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.post-review-button {
+  margin-top: 10px;
+}
+
 .review-modal-content {
   border-radius: 20px;
   position: fixed;
