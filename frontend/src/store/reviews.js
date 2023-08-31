@@ -43,12 +43,12 @@ export const thunkGetSpotReviews = (spotId) => async (dispatch) => {
 };
 
 export const thunkCreateReview = (review, spotId, user) => async (dispatch) => {
-  const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-    method: "POST",
-    body: JSON.stringify(review),
-  });
+  try {
+    const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+      method: "POST",
+      body: JSON.stringify(review),
+    });
 
-  if (res.ok) {
     const newReview = await res.json();
     newReview.User = {
       id: user.id,
@@ -56,10 +56,10 @@ export const thunkCreateReview = (review, spotId, user) => async (dispatch) => {
       lastName: user.lastName,
     };
     newReview.ReviewImages = [];
-    dispatch(createReview(newReview));
+    dispatch(thunkGetSpotReviews(spotId));
     return newReview;
-  } else {
-    const errors = await res.json();
+  } catch (e) {
+    const errors = await e.json();
     return errors;
   }
 };

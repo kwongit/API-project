@@ -26,7 +26,7 @@ export const CreateReviewModalButton = ({ spot, user }) => {
 
   if (!user) return null;
 
-  const onClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const newReview = { stars, review };
@@ -42,7 +42,7 @@ export const CreateReviewModalButton = ({ spot, user }) => {
 
   return (
     <div className="review-modal-content">
-      <form className="submit-review-form" onSubmit={onClick}>
+      <form className="submit-review-form" onSubmit={handleSubmit}>
         <div className="review-container">
           <h2>How was your stay?</h2>
 
@@ -103,7 +103,7 @@ export const CreateReviewModalButton = ({ spot, user }) => {
           <button
             className="submit-review-button"
             type="submit"
-            onClick={onClick}
+            onClick={handleSubmit}
             disabled={
               Object.values(errors).length > 1 || !stars || review.length < 10
             }
