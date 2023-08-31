@@ -35,6 +35,7 @@ export const CreateSpot = ({ user }) => {
     if (!description || description.length < 30)
       errors.description = "Description needs 30 or more characters";
     if (!name) errors.name = "Name is required";
+    if (name.length > 49) errors.name = "Name must be less than 50 characters";
     if (!price || price < 1) errors.price = "Price is required";
     if (!previewImg) errors.previewImg = "Preview image is required";
     if (
