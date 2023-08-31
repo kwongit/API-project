@@ -1,9 +1,8 @@
 import { csrfFetch } from "./csrf";
 
 // TYPE CONSTANTS
-const GET_SPOT_REVIEWS = "spots/spot/getSpotReviews";
-// const CREATE_REVIEW = "spots/spot/createReview";
-const DELETE_REVIEW = "spots/spot/deleteReview";
+const GET_SPOT_REVIEWS = "reviews/getSpotReviews";
+const DELETE_REVIEW = "reviews/deleteReview";
 
 // ACTION CREATORS
 const getSpotReviews = (reviews, spotId) => {
@@ -13,20 +12,6 @@ const getSpotReviews = (reviews, spotId) => {
     spotId,
   };
 };
-
-// const createReview = (review) => {
-//   return {
-//     type: CREATE_REVIEW,
-//     review,
-//   };
-// };
-
-// const deleteReview = (reviewId) => {
-//   return {
-//     type: DELETE_REVIEW,
-//     reviewId,
-//   };
-// };
 
 // THUNK ACTION CREATORS
 export const thunkGetSpotReviews = (spotId) => async (dispatch) => {
@@ -43,23 +28,18 @@ export const thunkGetSpotReviews = (spotId) => async (dispatch) => {
 };
 
 export const thunkCreateReview = (review, spotId, user) => async (dispatch) => {
-  try {
-    const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-      method: "POST",
-      body: JSON.stringify(review),
-    });
+  const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(review),
+  });
 
+  if (res.ok) {
     const newReview = await res.json();
-    newReview.User = {
-      id: user.id,
-      firstName: user.firsName,
-      lastName: user.lastName,
-    };
-    newReview.ReviewImages = [];
     dispatch(thunkGetSpotReviews(spotId));
     return newReview;
-  } catch (e) {
-    const errors = await e.json();
+  } else {
+    const errors = await res.json();
     return errors;
   }
 };
@@ -69,9 +49,14 @@ export const thunkDeleteReview = (reviewId, spotId) => async (dispatch) => {
     method: "DELETE",
   });
 
-  const data = await res.json();
-  dispatch(thunkGetSpotReviews(spotId));
-  return data;
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(thunkGetSpotReviews(spotId));
+    return data;
+  } else {
+    const errors = await res.json();
+    return errors;
+  }
 };
 
 // REDUCERS
@@ -94,7 +79,7 @@ const reviewsReducer = (state = initialState, action) => {
         ...state,
         spot: { ...state.spot },
       };
-      delete newState.spot[action.reviewId];
+      delete newState.spot[action.spotId][action.reviewId];
       return newState;
 
     default:

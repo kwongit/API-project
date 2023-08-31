@@ -11,7 +11,7 @@ export const DeleteReviewModal = ({ reviewId, spotId }) => {
   const handleClick = (e) => {
     e.preventDefault();
 
-    return dispatch(thunkDeleteReview(reviewId, spotId))
+    dispatch(thunkDeleteReview(reviewId, spotId))
       .then(() => dispatch(thunkGetSpotInfo(spotId)))
       .then(closeModal);
   };

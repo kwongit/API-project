@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-// import { SpotDetails } from "../SpotDetails";
 import { thunkGetSpotReviews } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
 import { CreateReviewModal } from "./CreateReviewModal";
@@ -37,7 +36,6 @@ export const SpotReviews = () => {
 
   return (
     <div>
-      {/* <SpotDetails /> */}
       <div>
         {reviewsList.length ? (
           <div>
@@ -64,7 +62,10 @@ export const SpotReviews = () => {
                   <OpenModalButton
                     buttonText="Delete"
                     modalComponent={
-                      <DeleteReviewModal spot={spot} user={user} />
+                      <DeleteReviewModal
+                        reviewId={review.id}
+                        spotId={spot.id}
+                      />
                     }
                   />
                 )}

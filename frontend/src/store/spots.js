@@ -3,9 +3,9 @@ import { csrfFetch } from "./csrf";
 // TYPE CONSTANTS
 const GET_SPOTS = "spots/getSpots";
 const GET_SPOT = "spots/getSpot";
-const CREATE_SPOT = "spot/createSpot";
-const UPDATE_SPOT = "spot/updateSpot";
-const DELETE_SPOT = "spot/deleteSpot";
+const CREATE_SPOT = "spots/createSpot";
+const UPDATE_SPOT = "spots/updateSpot";
+const DELETE_SPOT = "spots/deleteSpot";
 
 // ACTION CREATORS
 const getSpots = (spots) => {
@@ -18,13 +18,6 @@ const getSpots = (spots) => {
 const getSpot = (spot) => {
   return {
     type: GET_SPOT,
-    spot,
-  };
-};
-
-const createSpot = (spot) => {
-  return {
-    type: CREATE_SPOT,
     spot,
   };
 };

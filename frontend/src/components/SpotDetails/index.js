@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { thunkGetSpotInfo } from "../../store/spots";
 import { thunkGetSpotReviews } from "../../store/reviews";
-import "./SpotDetails.css";
 import { SpotReviews } from "../SpotReviews";
+import "./SpotDetails.css";
 
 export const SpotDetails = () => {
   const dispatch = useDispatch();
   const { spotId } = useParams();
-  const singleSpot = useSelector((state) => state.spot.singleSpot);
+  const oneSpot = useSelector((state) => state.spot.singleSpot);
   const reviews = useSelector((state) => state.review.spot);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export const SpotDetails = () => {
     dispatch(thunkGetSpotReviews(spotId));
   }, [dispatch, spotId]);
 
-  if (!singleSpot.id) return null;
+  if (!oneSpot.id) return null;
   if (!reviews[spotId]) return null;
 
   const reviewsList = Object.values(reviews[spotId]).reverse();
@@ -36,7 +36,7 @@ export const SpotDetails = () => {
     numReviews,
     price,
     state,
-  } = singleSpot;
+  } = oneSpot;
 
   const mainImage = SpotImages.find((image) => image.preview) || SpotImages[0];
   const additionalImages = SpotImages.filter((image) => !image.preview);
