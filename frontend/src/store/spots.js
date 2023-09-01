@@ -1,6 +1,8 @@
 import { csrfFetch } from "./csrf";
 
 // TYPE CONSTANTS
+// used to define action types. ensures consistent action types throughout redux application
+
 const GET_SPOTS = "spots/getSpots";
 const GET_SPOT = "spots/getSpot";
 const CREATE_SPOT = "spots/createSpot";
@@ -8,6 +10,8 @@ const UPDATE_SPOT = "spots/updateSpot";
 const DELETE_SPOT = "spots/deleteSpot";
 
 // ACTION CREATORS
+// functions that return action objects. objects describe action types
+
 const getSpots = (spots) => {
   return {
     type: GET_SPOTS,
@@ -37,6 +41,9 @@ const deleteSpot = (spotId) => {
 };
 
 // THUNK ACTION CREATORS
+// makes API request and dispatches async actions
+
+// retrieves a list of spots from API
 export const thunkGetSpots = () => async (dispatch) => {
   const res = await csrfFetch("/api/spots");
 
@@ -50,6 +57,7 @@ export const thunkGetSpots = () => async (dispatch) => {
   }
 };
 
+// retrieves info about a specific spot by its ID
 export const thunkGetSpotInfo = (spotId) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}`);
 
@@ -63,6 +71,7 @@ export const thunkGetSpotInfo = (spotId) => async (dispatch) => {
   }
 };
 
+// creates a new spot and associated spot images
 export const thunkCreateSpot = (spot, spotImages, user) => async (dispatch) => {
   const res = await csrfFetch("/api/spots", {
     method: "POST",
@@ -80,6 +89,7 @@ export const thunkCreateSpot = (spot, spotImages, user) => async (dispatch) => {
   }
 };
 
+// helper function used by thunkCreateSpot to create spot images
 export const thunkSpotImage = (spot, spotImages, user) => async (dispatch) => {
   for (const image of spotImages) {
     await csrfFetch(`/api/spots/${spot.id}/images`, {
@@ -89,6 +99,7 @@ export const thunkSpotImage = (spot, spotImages, user) => async (dispatch) => {
   }
 };
 
+// retrieves spots associated with the currently logged-in user
 export const thunkGetUserSpots = () => async (dispatch) => {
   const res = await csrfFetch("/api/spots/current");
 
@@ -102,6 +113,7 @@ export const thunkGetUserSpots = () => async (dispatch) => {
   }
 };
 
+// updates a spot by its ID
 export const thunkUpdateSpot = (spot, spotId) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}`, {
     method: "PUT",
@@ -119,6 +131,7 @@ export const thunkUpdateSpot = (spot, spotId) => async (dispatch) => {
   }
 };
 
+// deletes a spot by its ID
 export const thunkDeleteSpot = (spotId) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}`, {
     method: "DELETE",
@@ -129,8 +142,12 @@ export const thunkDeleteSpot = (spotId) => async (dispatch) => {
 };
 
 // REDUCERS
+// handles actions and updates application state
+
+// defines initial state for the spots section of redux store
 const initialState = { allSpots: {}, singleSpot: {} };
 
+// takes current state and action and returns new state based on action type
 const spotsReducer = (state = initialState, action) => {
   let newState;
 
