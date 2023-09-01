@@ -60,19 +60,19 @@
   padding: 5px 15px;
   border-radius: 10px;
   width: 30%;
-  border: 2px solid black;
+  height: 50%;
+  border: 1px solid gray;
 }
 
 .price-stars-reviews-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70px;
+  height: auto;
 }
 
 .price-night {
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   gap: 5px;
   margin-top: 0px;
@@ -98,8 +98,8 @@
   background-color: #FF5A5F;
   color: white;
   border: 1px solid black;
-  box-shadow: 2px 2px black;
+  box-shadow: 2px 2px gray;
   margin-bottom: 15px;
   width: 95%;
-  height: 30px;
+  padding: 10px 15px;
 }

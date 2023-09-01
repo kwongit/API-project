@@ -70,7 +70,7 @@ input {
   background-color: #FF5A5F;
   color: white;
   border: 1px solid black;
-  box-shadow: 2px 2px black;
+  box-shadow: 2px 2px gray;
 }
 
 .demo-user-button {

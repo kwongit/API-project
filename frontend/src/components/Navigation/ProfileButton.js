@@ -74,13 +74,19 @@ function ProfileButton({ user }) {
               </NavLink>
             </li>
             <li>
-              <NavLink
+              {/* <NavLink
                 exact
                 to="/reviews/current"
                 className="manage-reviews-current"
               >
                 Manage Reviews
-              </NavLink>
+              </NavLink> */}
+              <div
+                className="manage-reviews-current"
+                onClick={() => alert("Feature Coming Soon...")}
+              >
+                Manage Reviews
+              </div>
             </li>
             <li className="logout-button-container">
               <button className="logout-button" onClick={logout}>
