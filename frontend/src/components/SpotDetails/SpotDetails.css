@@ -1,6 +1,7 @@
 .view-spot-details {
-  margin-left: 45px;
-  margin-right: 45px;
+  margin: 0 auto;
+  max-width: 1024px;
+  padding: 0 45px;
 }
 
 .view-spot-details > h3 {
@@ -44,7 +45,7 @@
 }
 
 .host-description {
-  width: 70%;
+  width: 67%;
   margin-left: 3px;
 }
 
@@ -59,7 +60,7 @@
   margin-top: 15px;
   padding: 5px 15px;
   border-radius: 10px;
-  width: 30%;
+  width: 33%;
   height: 50%;
   border: 1px solid gray;
 }
@@ -74,7 +75,6 @@
 .price-night {
   display: flex;
   align-items: center;
-  gap: 5px;
   margin-top: 0px;
   margin-bottom: 0px;
 }

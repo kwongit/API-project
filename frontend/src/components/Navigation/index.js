@@ -19,7 +19,7 @@ function Navigation({ isLoaded }) {
           <NavLink exact to="/">
             <img
               className="logo"
-              src="../icon/new_logo.png"
+              src="../icon/logo.png"
               alt="logo"
               onClick={handleLogoClick}
             />

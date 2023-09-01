@@ -74,7 +74,7 @@ export const SpotDetails = () => {
           <div className="price-stars-reviews-container">
             <div className="price-night">
               <h4>${Number(price).toFixed(2)}</h4>
-              <div>night</div>
+              <div>/night</div>
             </div>
 
             {reviewsList.length ? (

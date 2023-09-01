@@ -38,7 +38,7 @@ const SpotTile = ({ spot }) => {
       </div>
       <div className="price-night">
         <span className="spot-price">${Number(price).toFixed(2)}</span>
-        <span> night</span>
+        <span>/night</span>
       </div>
     </div>
   );
