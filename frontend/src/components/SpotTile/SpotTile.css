@@ -33,10 +33,11 @@
   width: 100px;
   color: white;
   font-size: 12px;
-  background-color: #787c7e;
+  background-color: gray;
   border-radius: 10px;
-  padding: 5px 5px 5px 5px;
+  padding: 5px;
   text-align: center;
+  border: 1px solid black;
 }
 
 .preview-image {

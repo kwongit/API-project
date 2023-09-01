@@ -6,25 +6,43 @@ import { thunkGetSpotReviews } from "../../store/reviews";
 import { SpotReviews } from "../SpotReviews";
 import "./SpotDetails.css";
 
+// OVERALL FLOW: view > dispatch > thunk action creator > reducer > subscriber > react setters > view
+
 export const SpotDetails = () => {
+  // initialize to allow dispatch actions to redux store
   const dispatch = useDispatch();
+
+  // extract `spotId` param from URL
   const { spotId } = useParams();
+
+  // extract data from store,
+  // oneSpot retrieved by`thunkGetSpotInfo`
+  // reviews retrieved by`thunkGetSpotReviews`
   const oneSpot = useSelector((state) => state.spot.singleSpot);
   const reviews = useSelector((state) => state.review.spot);
 
+  // runs after component mounts
   useEffect(() => {
+    // dispatch thunk action creator to fetch spot details
     dispatch(thunkGetSpotInfo(spotId));
+    // effect runs whenever either dispatch or spotId changes
   }, [dispatch, spotId]);
 
+  // runs after component mounts
   useEffect(() => {
+    // dispatch thunk action creator to fetch spot reviews
     dispatch(thunkGetSpotReviews(spotId));
+    // effect runs whenever either dispatch or spotId changes
   }, [dispatch, spotId]);
 
+  // prevent rendering empty content if `oneSpot` data hasn't loaded yet
   if (!oneSpot.id) return null;
   if (!reviews[spotId]) return null;
 
+  // convert obj to arr and reverse order to show most recent first
   const reviewsList = Object.values(reviews[spotId]).reverse();
 
+  // destructure props of `oneSpot` obj
   const {
     Owner,
     SpotImages,
@@ -38,6 +56,8 @@ export const SpotDetails = () => {
     state,
   } = oneSpot;
 
+  // extract main img and additonal imgs from `SpotImages` arr
+  // main is preview === true, additional are preview === false
   const mainImage = SpotImages.find((image) => image.preview) || SpotImages[0];
   const additionalImages = SpotImages.filter((image) => !image.preview);
 
@@ -51,11 +71,11 @@ export const SpotDetails = () => {
       <div className="spot-images">
         <img className="main-image" src={mainImage.url} alt="main" />
         <div className="additional-images-container">
-          {additionalImages.map((spot) => (
+          {additionalImages.map((img) => (
             <img
               className="additional-images"
-              src={spot.url}
-              key={spot.id}
+              src={img.url}
+              key={img.id}
               alt="additional"
             />
           ))}
@@ -99,6 +119,7 @@ export const SpotDetails = () => {
         </div>
       </div>
 
+      {/* Also render `SpotReview` component */}
       <SpotReviews />
     </div>
   );

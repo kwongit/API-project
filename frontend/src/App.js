@@ -36,7 +36,6 @@ function App() {
           <GetSpotToUpdate />
         </Route>
         <Route exact path="/spots/:spotId">
-          {/* <SpotReviews /> */}
           <SpotDetails />
         </Route>
       </Switch>
