@@ -12,6 +12,7 @@ h1 {
   margin-right: auto;
   width: 300px;
   background-color: #ffffff;
+  border: 2px solid black;
 }
 
 .login-form-container {

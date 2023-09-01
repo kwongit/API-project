@@ -12,6 +12,7 @@ h1 {
   margin-right: auto;
   width: 400px;
   background-color: #ffffff;
+  border: 2px solid black;
 }
 
 .signup-container {
@@ -35,8 +36,8 @@ h1 {
 }
 
 .submit-button {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  margin-top: 15px;
+  padding: 10px 0px;
   cursor: not-allowed;
   width: 100%;
   background-color: #FFFFFF;
@@ -53,7 +54,7 @@ h1 {
 }
 
 .error-signup {
-  color: red
+  color: red;
 }
 
 .on-submit-errors {

@@ -55,7 +55,7 @@
 }
 
 .profile-dropdown {
-  border: 1px solid black;
+  border: 2px solid black;
   margin-top: 5px;
   padding: 10px;
   list-style-type: none;
@@ -75,7 +75,8 @@
   text-align: center;
   width: 100%;
   border-top: 1px solid black;
-  padding: 2px 0px;
+  border-bottom: 1px solid black;
+  padding: 5px 0px;
   text-decoration: none;
   color: black;
 }
@@ -83,16 +84,17 @@
 .manage-reviews-current {
   text-align: center;
   width: 100%;
-  padding: 2px 0px;
+  padding: 5px 0px;
   text-decoration: none;
   color: black;
+  border-bottom: 1px solid black;
 }
 
 .logout-button {
   color: white;
   background-color: gray;
   border: 1px solid black;
-  margin-top: 2px;
+  margin-top: 10px;
   padding: 10px 15px;
   border-radius: 20px;
   cursor: pointer;
@@ -100,8 +102,10 @@
 
 .login-modal {
   cursor: pointer;
+  padding: 5px 0px;
 }
 
 .signup-modal {
   cursor: pointer;
+  padding: 5px 0px;
 }
