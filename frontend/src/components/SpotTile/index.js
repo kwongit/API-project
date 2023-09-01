@@ -2,6 +2,7 @@ import { useHistory } from "react-router";
 import "./SpotTile.css";
 
 const SpotTile = ({ spot }) => {
+  // destructure props of `spot` obj
   const { id, name, previewImage, city, state, avgRating, price } = spot;
 
   const displayImage = previewImage ? previewImage : null;

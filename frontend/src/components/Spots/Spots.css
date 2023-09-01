@@ -1,6 +1,8 @@
 .create-spot-form-container {
   margin-left: 250px;
   margin-right: 250px;
+  max-width: 512px;
+  margin: 0 auto;
 }
 
 h3 {

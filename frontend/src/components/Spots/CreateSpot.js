@@ -3,7 +3,10 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { thunkCreateSpot } from "../../store/spots";
 
+// OVERALL FLOW: view > dispatch > thunk action creator > reducer > subscriber > react setters > view
+
 export const CreateSpot = ({ user }) => {
+  // create form input states
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -22,7 +25,10 @@ export const CreateSpot = ({ user }) => {
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // used to navigate to different routes
   const history = useHistory();
+
+  // initialize to allow dispatch actions to redux store
   const dispatch = useDispatch();
 
   useEffect(() => {
