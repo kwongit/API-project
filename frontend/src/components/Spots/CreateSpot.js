@@ -21,7 +21,7 @@ export const CreateSpot = ({ user }) => {
   const [imgTwo, setImgTwo] = useState("");
   const [imgThree, setImgThree] = useState("");
   const [imgFour, setImgFour] = useState("");
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -98,6 +98,8 @@ export const CreateSpot = ({ user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     setSubmitted(true);
 
     const newSpot = {
@@ -136,6 +138,7 @@ export const CreateSpot = ({ user }) => {
         history.push(`/spots/${addSpot.id}`);
       }
     }
+    setIsSubmitting(false);
   };
 
   return (
