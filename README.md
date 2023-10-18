@@ -9,7 +9,7 @@ your experiences, ChillBnB has you covered. With a robust set of features and
 a seamless user experience, it's your go-to app for all things spots! Join our
 growing community today and experience the power of ChillBnB!
 
-You can check out the [live site here](https://airbnb-api-6lyn.onrender.com)!
+You can check out the [live site here](https://chill-bnb.onrender.com/)!
 
 ## Tools and Frameworks
 
