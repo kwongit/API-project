@@ -2,3 +2,43 @@
 * {
   font-family: 'Figtree', sans-serif;
 }
+
+.footer-container {
+  border-top: 1px solid #CCCCCC;
+  margin-top: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+  height: 100px;
+  column-gap: 40px;
+}
+
+.copyright-text {
+  font-size: 14px;
+  color: gray;
+  margin: 0px;
+}
+
+.fa-linkedin {
+  transform: scale(2);
+}
+
+@media screen and (max-width: 549px) {
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 250px;
+    margin-top: 50px;
+  }
+
+  .copyright-text {
+    text-align: center;
+    font-size: 12px;
+  }
+}
+
+#root {
+  min-height: 100vh;
+}
