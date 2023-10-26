@@ -9,7 +9,7 @@ your experiences, ChillBnB has you covered. With a robust set of features and
 a seamless user experience, it's your go-to app for all things spots! Join our
 growing community today and experience the power of ChillBnB!
 
-You can check out the [live site here](https://airbnb-api-6lyn.onrender.com)!
+You can check out the [live site here](https://chill-bnb.onrender.com/)!
 
 ## Tools and Frameworks
 
@@ -40,55 +40,37 @@ You can check out the [live site here](https://airbnb-api-6lyn.onrender.com)!
 - [User Stories](https://github.com/kwongit/chill-bnb/wiki/User-Stories)
 - [Wireframes](https://github.com/kwongit/chill-bnb/wiki/Wireframes)
 
-<!-- ## Screenshots
+## Screenshots
 
 ### Landing Page
-
-<img width="952" alt="landing_page" src="https://github.com/kwongit/boba-buzz/assets/26725594/82b937d5-4440-4c12-9fbc-4c273832d5d0">
+![landing](https://github.com/kwongit/chill-bnb/assets/26725594/6d359362-a5b0-4528-b0c7-5dcb358e39bb)
 
 ### Sign Up Modal
-
-<img width="952" alt="signup_modal" src="https://github.com/kwongit/boba-buzz/assets/26725594/db47e464-ee63-4674-b2a1-e6b0eb4b4843">
+![signin](https://github.com/kwongit/chill-bnb/assets/26725594/f3e9e010-c8f7-4c62-9f64-d1364f7e7c48)
 
 ### Login Modal
+![login](https://github.com/kwongit/chill-bnb/assets/26725594/ac9ad419-c581-42cf-b825-14815a41feaf)
 
-<img width="952" alt="login_modal" src="https://github.com/kwongit/boba-buzz/assets/26725594/569e577b-8b7c-413c-991e-66bccd5b0d4d">
+### Spot Details Page
+![spot-details](https://github.com/kwongit/chill-bnb/assets/26725594/8360fdfc-fec6-4e59-baf6-267e31492a00)
 
-### Boba Shop Details Page
+### Create Spot Page
+![create-spot](https://github.com/kwongit/chill-bnb/assets/26725594/cf8a9dc7-b18a-4444-84c8-1991850444db)
 
-<img width="952" alt="shop_details" src="https://github.com/kwongit/boba-buzz/assets/26725594/f0002aed-c8df-4c65-87ef-756678de2344">
+### Manage Spots Page
+![manage-spots](https://github.com/kwongit/chill-bnb/assets/26725594/622a7ea0-80d9-4601-bff9-f6bb002a4b51)
 
-### Add Your Shop Page
+### Update Spot Page
+![update-spot](https://github.com/kwongit/chill-bnb/assets/26725594/d4acaf03-efa9-47e0-aa05-5b2fd416717d)
 
-<img width="952" alt="add_shop" src="https://github.com/kwongit/boba-buzz/assets/26725594/4bca5f8a-db48-41d2-b9e7-e1921e0f9b0d">
+### Delete Spot Modal
+![delete-spot](https://github.com/kwongit/chill-bnb/assets/26725594/89d841da-bd61-448c-8627-1324f3c585d3)
 
-### Mange Your Shops Page
+### Post Review Modal
+![create-review](https://github.com/kwongit/chill-bnb/assets/26725594/5380a2cc-d341-4866-bde1-f67d53329a26)
 
-<img width="952" alt="manage_shops" src="https://github.com/kwongit/boba-buzz/assets/26725594/83789a9c-e99e-4640-8919-0536414c7f8f">
-
-### Update Your Shop Page
-
-<img width="952" alt="update_shop" src="https://github.com/kwongit/boba-buzz/assets/26725594/ff75af07-42f7-4933-a0ae-c631a35b83b2">
-
-### Delete Your Shop Modal
-
-<img width="952" alt="delete_shop_modal" src="https://github.com/kwongit/boba-buzz/assets/26725594/f767a675-b5aa-4579-a2ed-4ccb776dffa7">
-
-### Post Your Buzz Modal
-
-<img width="952" alt="post_buzz_modal" src="https://github.com/kwongit/boba-buzz/assets/26725594/d202d2f5-1694-4d9a-bc19-8fa87b205d44">
-
-### Manage Your Buzzes Page
-
-<img width="952" alt="manage_buzzes" src="https://github.com/kwongit/boba-buzz/assets/26725594/66da9371-b724-4f0d-b404-ca3c60116cf0">
-
-### Update Your Buzz Modal
-
-<img width="952" alt="update_buzz_modal" src="https://github.com/kwongit/boba-buzz/assets/26725594/501c039e-3eb7-47fc-b872-167b0bf12f60">
-
-### Delete Your Buzz Modal
-
-<img width="952" alt="delete_buzz_modal" src="https://github.com/kwongit/boba-buzz/assets/26725594/a24508e0-f603-46d6-810c-28e6418a37f7"> -->
+### Delete Review Modal
+![delete-review](https://github.com/kwongit/chill-bnb/assets/26725594/640b89a7-b6ca-48d3-a84c-f329648fcf83)
 
 ## Get in Touch:
 
