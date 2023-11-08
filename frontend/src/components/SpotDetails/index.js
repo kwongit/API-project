@@ -1,14 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { thunkGetSpotInfo } from "../../store/spots";
 import { thunkGetSpotReviews } from "../../store/reviews";
 import { SpotReviews } from "../SpotReviews";
+import { thunkCreateBooking } from "../../store/bookings"; // Import the thunk for creating bookings
+
 import "./SpotDetails.css";
 
 // OVERALL FLOW: view > dispatch > thunk action creator > reducer > subscriber > react setters > view
 
 export const SpotDetails = () => {
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
   // initialize to allow dispatch actions to redux store
   const dispatch = useDispatch();
 
@@ -61,6 +66,14 @@ export const SpotDetails = () => {
   const mainImage = SpotImages.find((image) => image.preview) || SpotImages[0];
   const additionalImages = SpotImages.filter((image) => !image.preview);
 
+  const handleBooking = () => {
+    if (startDate && endDate) {
+      dispatch(thunkCreateBooking(spotId, startDate, endDate));
+    } else {
+      alert("Please select valid booking dates.");
+    }
+  };
+
   return (
     <div className="view-spot-details">
       <h1>{name}</h1>
@@ -111,15 +124,34 @@ export const SpotDetails = () => {
             )}
           </div>
 
-          <div className="reserve-button">
+          {/* <div className="reserve-button">
             <button onClick={() => alert("Feature Coming Soon...")}>
               Reserve
             </button>
+          </div> */}
+
+          <div className="reserve-button">
+            <div className="booking-date-inputs">
+              <label htmlFor="startDate">Start Date:</label>
+              <input
+                type="date"
+                id="startDate"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+              <label htmlFor="endDate">End Date:</label>
+              <input
+                type="date"
+                id="endDate"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </div>
+            <button onClick={handleBooking}>Reserve</button>
           </div>
         </div>
       </div>
 
-      {/* Also render `SpotReview` component */}
       <SpotReviews />
     </div>
   );
