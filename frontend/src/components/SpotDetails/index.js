@@ -4,8 +4,7 @@ import { useParams } from "react-router-dom";
 import { thunkGetSpotInfo } from "../../store/spots";
 import { thunkGetSpotReviews } from "../../store/reviews";
 import { SpotReviews } from "../SpotReviews";
-import { thunkCreateBooking } from "../../store/bookings"; // Import the thunk for creating bookings
-
+import { thunkCreateBooking, thunkGetBookings } from "../../store/bookings";
 import "./SpotDetails.css";
 
 // OVERALL FLOW: view > dispatch > thunk action creator > reducer > subscriber > react setters > view
@@ -13,6 +12,7 @@ import "./SpotDetails.css";
 export const SpotDetails = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [bookingError, setBookingError] = useState(null);
 
   // initialize to allow dispatch actions to redux store
   const dispatch = useDispatch();
@@ -67,10 +67,18 @@ export const SpotDetails = () => {
   const additionalImages = SpotImages.filter((image) => !image.preview);
 
   const handleBooking = () => {
-    if (startDate && endDate) {
-      dispatch(thunkCreateBooking(spotId, startDate, endDate));
-    } else {
-      alert("Please select valid booking dates.");
+    try {
+      if (startDate && endDate && startDate < endDate) {
+        dispatch(thunkCreateBooking(spotId, startDate, endDate));
+        // alert(`Successfully booked!`);
+      } else if (startDate > endDate) {
+        alert(`endDate cannot be on or before startDate`);
+      } else {
+        alert("Please select valid booking dates.");
+      }
+    } catch (errors) {
+      console.log("ERROR: " + errors);
+      setBookingError(errors);
     }
   };
 
@@ -124,12 +132,6 @@ export const SpotDetails = () => {
             )}
           </div>
 
-          {/* <div className="reserve-button">
-            <button onClick={() => alert("Feature Coming Soon...")}>
-              Reserve
-            </button>
-          </div> */}
-
           <div className="reserve-button">
             <div className="booking-date-inputs">
               <label htmlFor="startDate">Start Date:</label>
@@ -148,6 +150,9 @@ export const SpotDetails = () => {
               />
             </div>
             <button onClick={handleBooking}>Reserve</button>
+            {bookingError && (
+              <div className="error-message">{bookingError}</div>
+            )}
           </div>
         </div>
       </div>

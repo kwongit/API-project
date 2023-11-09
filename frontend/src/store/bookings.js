@@ -45,7 +45,7 @@ export const thunkGetBookings = () => async (dispatch) => {
 // Create a new booking
 export const thunkCreateBooking =
   (spotId, startDate, endDate) => async (dispatch) => {
-    const res = await csrfFetch("/api/bookings", {
+    const res = await csrfFetch(`/api/spots/${spotId}/bookings`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ spotId, startDate, endDate }),
