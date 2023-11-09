@@ -1,10 +1,18 @@
 import { csrfFetch } from "./csrf";
 
 // TYPE CONSTANTS
+const GET_REVIEWS = "reviews/getReviews";
 const GET_SPOT_REVIEWS = "reviews/getSpotReviews";
 const DELETE_REVIEW = "reviews/deleteReview";
 
 // ACTION CREATORS
+const getReviews = (reviews) => {
+  return {
+    type: GET_REVIEWS,
+    reviews,
+  };
+};
+
 const getSpotReviews = (reviews, spotId) => {
   return {
     type: GET_SPOT_REVIEWS,
@@ -14,6 +22,19 @@ const getSpotReviews = (reviews, spotId) => {
 };
 
 // THUNK ACTION CREATORS
+export const thunkGetUserReviews = () => async (dispatch) => {
+  const res = await csrfFetch("/api/reviews/current");
+
+  if (res.ok) {
+    const reviews = await res.json();
+    dispatch(getReviews(reviews));
+    return res;
+  } else {
+    const errors = await res.json();
+    return errors;
+  }
+};
+
 export const thunkGetSpotReviews = (spotId) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}/reviews`);
 

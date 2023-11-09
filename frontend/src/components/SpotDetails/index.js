@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { thunkGetSpotInfo } from "../../store/spots";
 import { thunkGetSpotReviews } from "../../store/reviews";
 import { SpotReviews } from "../SpotReviews";
-import { thunkCreateBooking, thunkGetBookings } from "../../store/bookings";
+import { thunkCreateBooking } from "../../store/bookings";
 import "./SpotDetails.css";
 
 // OVERALL FLOW: view > dispatch > thunk action creator > reducer > subscriber > react setters > view

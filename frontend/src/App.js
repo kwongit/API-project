@@ -6,6 +6,8 @@ import Navigation from "./components/Navigation";
 import { Spots } from "./components/Spots";
 import { CreateSpot } from "./components/Spots/CreateSpot";
 import { ManageSpots } from "./components/ManageSpots";
+import { ManageReviews } from "./components/ManageReviews";
+import { ManageBookings } from "./components/ManageBookings";
 import { GetSpotToUpdate } from "./components/Spots/GetSpotToUpdate";
 // import { SpotReviews } from "./components/SpotReviews";
 import { SpotDetails } from "./components/SpotDetails";
@@ -31,6 +33,12 @@ function App() {
         </Route>
         <Route exact path="/spots/current">
           <ManageSpots />
+        </Route>
+        <Route exact path="/reviews/current">
+          <ManageReviews />
+        </Route>
+        <Route exact path="/bookings/current">
+          <ManageBookings />
         </Route>
         <Route exact path="/spots/:spotId/edit">
           <GetSpotToUpdate />

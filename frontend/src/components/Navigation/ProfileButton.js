@@ -75,9 +75,9 @@ function ProfileButton({ user }) {
             </li>
             <li>
               {/* <NavLink
+                className="manage-reviews-current"
                 exact
                 to="/reviews/current"
-                className="manage-reviews-current"
               >
                 Manage Reviews
               </NavLink> */}
@@ -87,6 +87,21 @@ function ProfileButton({ user }) {
               >
                 Manage Reviews
               </div>
+            </li>
+            <li>
+              <NavLink
+                className="manage-bookings-current"
+                exact
+                to="/bookings/current"
+              >
+                Manage Bookings
+              </NavLink>
+              {/* <div
+                className="manage-bookings-current"
+                onClick={() => alert("Feature Coming Soon...")}
+              >
+                Manage Bookings
+              </div> */}
             </li>
             <li className="logout-button-container">
               <button className="logout-button" onClick={logout}>
