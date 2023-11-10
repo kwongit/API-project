@@ -9,7 +9,6 @@ import { ManageSpots } from "./components/ManageSpots";
 import { ManageReviews } from "./components/ManageReviews";
 import { ManageBookings } from "./components/ManageBookings";
 import { GetSpotToUpdate } from "./components/Spots/GetSpotToUpdate";
-// import { SpotReviews } from "./components/SpotReviews";
 import { SpotDetails } from "./components/SpotDetails";
 
 function App() {

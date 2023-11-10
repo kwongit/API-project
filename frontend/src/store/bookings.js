@@ -1,13 +1,14 @@
-// import axios from "axios";
 import { csrfFetch } from "./csrf";
 
-// Define action types
-export const GET_BOOKINGS = "bookings/getBookings";
-export const CREATE_BOOKING = "bookings/createBooking";
-export const UPDATE_BOOKING = "bookings/updateBooking";
-export const DELETE_BOOKING = "bookings/deleteBooking";
+// TYPE CONSTANTS
 
-// Action creators
+const GET_BOOKINGS = "bookings/getBookings";
+const CREATE_BOOKING = "bookings/createBooking";
+const UPDATE_BOOKING = "bookings/updateBooking";
+const DELETE_BOOKING = "bookings/deleteBooking";
+
+// ACTION CREATORS
+
 const getBookings = (bookings) => ({
   type: GET_BOOKINGS,
   bookings,
@@ -28,7 +29,8 @@ const deleteBooking = (bookingId) => ({
   bookingId,
 });
 
-// Fetch all bookings for the currently logged-in user
+// THUNK ACTION CREATORS
+
 export const thunkGetBookings = () => async (dispatch) => {
   const res = await csrfFetch("/api/bookings/current");
 
@@ -42,7 +44,6 @@ export const thunkGetBookings = () => async (dispatch) => {
   }
 };
 
-// Create a new booking
 export const thunkCreateBooking =
   (spotId, startDate, endDate) => async (dispatch) => {
     const res = await csrfFetch(`/api/spots/${spotId}/bookings`, {
@@ -61,7 +62,6 @@ export const thunkCreateBooking =
     }
   };
 
-// Update a booking by bookingId
 export const thunkUpdateBooking =
   (bookingId, startDate, endDate) => async (dispatch) => {
     const res = await csrfFetch(`/api/bookings/${bookingId}`, {
@@ -80,7 +80,6 @@ export const thunkUpdateBooking =
     }
   };
 
-// Delete a booking by bookingId
 export const thunkDeleteBooking = (bookingId) => async (dispatch) => {
   const res = await csrfFetch(`/api/bookings/${bookingId}`, {
     method: "DELETE",
@@ -94,6 +93,8 @@ export const thunkDeleteBooking = (bookingId) => async (dispatch) => {
     return errors;
   }
 };
+
+// REDUCERS
 
 const initialState = {
   bookings: {},

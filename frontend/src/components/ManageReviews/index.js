@@ -1,15 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { thunkGetUserReviews } from "../../store/reviews";
-// import SpotTile from "../SpotTile";
-// import { DeleteSpotModal } from "./DeleteReviewModal";
-// import OpenModalButton from "../OpenModalButton";
-import "./ManageReviews.css";
 
 export const ManageReviews = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
 
   const user = useSelector((state) => state.session.user);
   const reviews = useSelector((state) => state.review.spot);
@@ -21,14 +17,6 @@ export const ManageReviews = () => {
   }, [dispatch]);
 
   if (!user) return null;
-
-  // const handleClick = () => {
-  //   history.push("/spots/new");
-  // };
-
-  // const handleUpdateClick = (spotId) => {
-  //   history.push(`/spots/${spotId}/edit`);
-  // };
 
   return (
     <div>
